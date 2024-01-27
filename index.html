@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCES Supply Inventory</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]" style="background-image: url('assets/img/bg.PNG');">
+    <div class="relative h-auto">
+        <h1 class="text-8xl font-black text-indigo-900 text-center mt-16 mb-0 stroke-white">Supply
+            Inventory System</h1>
+        <div class="flex flex-column items-center justify-center my-24">
+            <div class="bg-blue-100 p-0 shadow-lg flex w-1/2">
+                <div class="w-1/2 p-20" id="login-form">
+                    <form method="post" action="assets/php/login.php">
+                        <div class="mb-4">
+                            <label for="username" class="block text-gray-700 text-sm font-medium mb-2">Username</label>
+                            <input type="text" id="username" name="username"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                            <input type="password" id="password" name="password"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                        </div>
+                        <button type="submit"
+                            class="bg-blue-900 text-white py-2 px-4 rounded-full hover:bg-blue-600 right-0">Login</button>
+                    </form>
+                    <p class="mt-4">Don’t have an account? <span id="register-link"
+                            class="text-blue-600 cursor-pointer">Register</span></p>
+                </div>
+                <div class="w-1/2 p-20 hidden" id="register-form">
+                    <form>
+                        <div class=" mb-4">
+                            <label for="first-name" class="block text-gray-700 text-sm font-medium mb-2">First
+                                Name</label>
+                            <input type="text" id="first-name" name="first-name"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="last-name" class="block text-gray-700 text-sm font-medium mb-2">Last
+                                Name</label>
+                            <input type="text" id="last-name" name="last-name"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="new-email" class="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="new-email" name="new-email"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="new-username"
+                                class="block text-gray-700 text-sm font-medium mb-2">Username</label>
+                            <input type="text" id="new-username" name="new-username"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="new-password"
+                                class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                            <input type="password" id="new-password" name="new-password"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="confirm-password" class="block text-gray-700 text-sm font-medium mb-2">Confirm
+                                Password</label>
+                            <input type="password" id="confirm-password" name="confirm-password"
+                                class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                            <p id="password-match-msg" class="text-red-500 text-sm mt-2"></p>
+                        </div>
+
+                        <button type="submit" id="register-button"
+                            class="bg-blue-900 text-white py-2 px-4 rounded-full hover:bg-blue-600 mr-0"
+                            disabled>Register</button>
+                    </form>
+                    <p class="mt-4">Already have an account? <span id="login-link"
+                            class="text-blue-600 cursor-pointer">Login</span></p>
+                </div>
+                <div class="w-1/2 m-0">
+                    <img src="assets/img/image1.png" alt="Image" class="w-auto h-full">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/login.js"></script>
+</body>
+
+</html>
