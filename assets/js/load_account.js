@@ -11,3 +11,15 @@ fetch('assets/php/fetch_acc_info.php')
     document.getElementById('department').value = data.department;
 })
 .catch(error => console.error('Error fetching account information:', error));
+
+fetch('assets/php/fetch_user_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    //for debugging
+                    //console.log('User ID:', data.user_id);
+                    //console.log('Last Name:', data.last_name);
+
+                    // Display the last name in the session in the span with id 'teacher-name'
+                    document.getElementById('teacher-name').textContent = data.last_name;
+                })
+                .catch(error => console.error('Error fetching user data:', error));

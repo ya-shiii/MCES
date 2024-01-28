@@ -52,11 +52,18 @@ function displayLogsTable(logData) {
                         var verifyButton = '<button class="bg-green-500 w-20 text-white rounded px-2 py-1 m-2" onclick="verifyLog(' + row.log_id + ')">Verify</button>';
                         return verifyButton;
                     } else {
-                        return ''; // No button for other statuses
+                        if (row.action_type === 'borrow') {
+                            return 'Approved';
+                        } else {
+                            return 'Completed';
+                        }
+
+
                     }
                 }
             }
-        ]
+        ],
+        order: [[5, 'desc']]
     });
 }
 

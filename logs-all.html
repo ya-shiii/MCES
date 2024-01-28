@@ -14,8 +14,6 @@
     <!-- DataTables JavaScript -->
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <!-- Checks teacher authentication -->
-    <script src="assets/js/teacher_checker.js"></script>
 </head>
 
 <body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]"
@@ -36,7 +34,7 @@
         </div>
 
         <div class="w-11/12 mx-auto">
-            <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">LOG BOOK</h1>
+            <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">ALL LOGS</h1>
             <div class="flex flex-column mt-2">
                 <div class="p-0 flex w-full h-5/6">
                     <div class="w-1/4 m-0">
@@ -77,11 +75,10 @@
                         </div>
                         <div class="mt-20">
                             <div class="w-full mx-auto bg-blue-400 p-1 rounded-full my-3">
-                                <button onclick="showAll()"
+                                <button onclick="returnLogs()"
                                     class="w-full bg-blue-400 text-white border-4 border-opacity-0 rounded-full py-3 text-2xl relative">
                                     <div class="flex justify-between items-center">
-                                        <div class="w-full z-20">SHOW ALL LOGS</div>
-                                        <div class="z-10 pr-5 font-black">&gt;</div>
+                                        <div class="w-full z-20">RETURN</div>
                                     </div>
                                 </button>
                             </div>
@@ -98,7 +95,7 @@
         </div>
 
         <!-- Load Logs Table -->
-        <script src="assets/js/load_teacher_logs.js"></script>
+        <script src="assets/js/load_allLogs.js"></script>
 
 </body>
 

@@ -14,6 +14,8 @@
     <!-- DataTables JavaScript -->
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <!-- Checks teacher authentication -->
+    <script src="assets/js/teacher_checker.js"></script>
 </head>
 
 <body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]"
@@ -25,9 +27,9 @@
                 <div class="text-2xl font-black ">Teacher <span id="teacher-name"></span></div>
                 <div class="flex space-x-6">
                     <a href="home.html" class="px-4 hover:text-blue-300">Home</a>
-                    <a href="items-list.html" class="px-4 text-blue-300">Borrow Item</a>
+                    <a href="items-list.html" class="px-4 hover:text-blue-300">Borrow Item</a>
                     <a href="logs.html" class="px-4 hover:text-blue-300">Log Book</a>
-                    <a href="account.html" class="px-4 hover:text-blue-300">Account Management</a>
+                    <a href="account.html" class="px-4 text-blue-300">Account Management</a>
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
             </div>
@@ -50,7 +52,7 @@
                                     </button>
                                 </div>
                             </a>
-                            <a href="logS.html">
+                            <a href="logs.html">
                                 <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
                                     <button
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">

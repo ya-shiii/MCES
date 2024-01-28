@@ -56,9 +56,47 @@ function displayItemsTable(itemData) {
     });
 }
 
+function addItemModal() {
+    $('#addItemModal').removeClass('hidden');
+}
+
+// Function to hide the Add Item modal
+function cancelAddItem() {
+    $('#addItemModal').addClass('hidden');
+}
+
+// Function to handle item editing
 function editItem(serialCode) {
-    // Implement logic to edit the item
-    console.log('Editing item:', serialCode);
+    // AJAX request to fetch item data
+    $.ajax({
+        type: 'POST',
+        url: 'assets/php/fetch_item-edit.php',
+        data: { serial_code: serialCode },
+        success: function (itemData) {
+            console.log('Editing item:', itemData.serial_code);
+
+            // Show the modal
+            document.getElementById('editItemModal').classList.remove('hidden');
+            
+            // Populate the modal form with item data
+            document.getElementById('oldSerial_code').value = itemData.serial_code;
+            document.getElementById('editSerial_code').value = itemData.serial_code;
+            document.getElementById('editItem_name').value = itemData.item_name;
+            document.getElementById('editTotal_items').value = itemData.total_items;
+            document.getElementById('borrowed_items').value = itemData.items_borrowed;
+
+
+        },
+        error: function (error) {
+            console.error('Error fetching item data:', error);
+        }
+    });
+}
+
+// Function to cancel editing an item
+function cancelEditItem() {
+    // Hide the editItem modal
+    document.getElementById('editItemModal').classList.add('hidden');
 }
 
 function deleteItem(serialCode) {
@@ -83,4 +121,22 @@ function deleteItem(serialCode) {
     }
 }
 
+document.getElementById('serial_code').addEventListener('input', function () {
+    this.value = this.value.toUpperCase();
+});
 
+document.getElementById('editSerial_code').addEventListener('input', function () {
+    this.value = this.value.toUpperCase();
+});
+
+function generateQR() {
+    // Get the serial code from the input
+    var serialCode = document.getElementById('serial_code').value;
+
+    // Generate QR code
+    var qrcode = new QRCode(document.getElementById('qrcode'), {
+        text: serialCode,
+        width: 200,
+        height: 200
+    });
+}
