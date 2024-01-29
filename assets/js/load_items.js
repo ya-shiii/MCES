@@ -77,21 +77,33 @@ function editItem(serialCode) {
 
             // Show the modal
             document.getElementById('editItemModal').classList.remove('hidden');
-            
+
+            // Get the container for QR code
+            var qrcodeContainer = document.getElementById('editQrcode'); // Change the id here
+
+            // Regenerate the QR code
+            var qrcode = new QRCode(qrcodeContainer, {
+                text: serialCode,
+                width: 200,
+                height: 200
+            });
+
+            // Set QR code data URL to the hidden input
+            document.getElementById('qr_data_url').value = qrcodeContainer.getElementsByTagName('canvas')[0].toDataURL('image/png');
+
             // Populate the modal form with item data
             document.getElementById('oldSerial_code').value = itemData.serial_code;
             document.getElementById('editSerial_code').value = itemData.serial_code;
             document.getElementById('editItem_name').value = itemData.item_name;
             document.getElementById('editTotal_items').value = itemData.total_items;
             document.getElementById('borrowed_items').value = itemData.items_borrowed;
-
-
         },
         error: function (error) {
             console.error('Error fetching item data:', error);
         }
     });
 }
+
 
 // Function to cancel editing an item
 function cancelEditItem() {
@@ -129,14 +141,82 @@ document.getElementById('editSerial_code').addEventListener('input', function ()
     this.value = this.value.toUpperCase();
 });
 
-function generateQR() {
-    // Get the serial code from the input
-    var serialCode = document.getElementById('serial_code').value;
 
-    // Generate QR code
+// for generating and saving QR code
+function generateQR() {
+    // Clear existing QR code
+    var qrcodeContainer = document.getElementById('qrcode');
+    qrcodeContainer.innerHTML = '';
+
+    var serialCode = document.getElementById('serial_code').value;
     var qrcode = new QRCode(document.getElementById('qrcode'), {
         text: serialCode,
         width: 200,
         height: 200
     });
+
+    // Set QR code data URL to the hidden input
+    document.getElementById('qr_data_url').value = document.getElementById('qrcode').getElementsByTagName('canvas')[0].toDataURL('image/png');
 }
+
+function saveQR() {
+    // Get the canvas element of the QR code
+    var canvas = document.getElementById('qrcode').getElementsByTagName('canvas')[0];
+
+    // Convert the canvas to a data URL
+    var dataURL = canvas.toDataURL('image/png');
+
+    // Create a link element
+    var link = document.createElement('a');
+    link.href = dataURL;
+
+    // Set the download attribute with the desired filename
+    link.download = 'assets/qr/' + document.getElementById('serial_code').value + '.png';
+
+    // Append the link to the document and trigger a click to start the download
+    document.body.appendChild(link);
+    link.click();
+
+    // Remove the link from the document
+    document.body.removeChild(link);
+}
+
+// for generating and saving QR code
+function generateNewQR() {
+    // Clear existing QR code
+    var qrcodeContainer1 = document.getElementById('editQrcode');
+    qrcodeContainer1.innerHTML = '';
+
+    var serialCode = document.getElementById('editSerial_code').value;
+    var qrcode = new QRCode(document.getElementById('editQrcode'), {
+        text: serialCode,
+        width: 200,
+        height: 200
+    });
+
+    // Set QR code data URL to the hidden input
+    document.getElementById('edit_qr_data_url').value = document.getElementById('editQrcode').getElementsByTagName('canvas')[0].toDataURL('image/png');
+}
+
+function editQR() {
+    // Get the canvas element of the QR code
+    var canvas = document.getElementById('editQrcode').getElementsByTagName('canvas')[0];
+
+    // Convert the canvas to a data URL
+    var dataURL = canvas.toDataURL('image/png');
+
+    // Create a link element
+    var link = document.createElement('a');
+    link.href = dataURL;
+
+    // Set the download attribute with the desired filename
+    link.download = 'assets/qr/' + document.getElementById('editSerial_code').value + '.png';
+
+    // Append the link to the document and trigger a click to start the download
+    document.body.appendChild(link);
+    link.click();
+
+    // Remove the link from the document
+    document.body.removeChild(link);
+}
+

@@ -5,7 +5,9 @@ include_once 'db_connect.php';
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
-    $serialCode = $_POST['serial_code'];
+
+    // Sanitize the input to prevent SQL injection
+    $serialCode = mysqli_real_escape_string($conn, $_POST['serial_code']);
     $itemName = $_POST['item_name'];
     $totalItems = $_POST['total_items'];
 
@@ -21,6 +23,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $addItemQuery = "INSERT INTO school_items (serial_code, item_name, total_items) VALUES ('$serialCode', '$itemName', $totalItems)";
         if (mysqli_query($conn, $addItemQuery)) {
             // Item added successfully
+
+            // Save QR code image to a file
+            $dataURL = $_POST['qr_data_url'];
+            $data = explode(',', $dataURL);
+            $base64Data = $data[1];
+            $decodedData = base64_decode($base64Data);
+            file_put_contents('../../assets/qr/' . $serialCode . '.png', $decodedData);
+
             $response = array('success' => true, 'message' => 'Item added successfully');
         } else {
             // Error adding item
