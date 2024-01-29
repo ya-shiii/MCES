@@ -74,7 +74,11 @@ function editItem(serialCode) {
         data: { serial_code: serialCode },
         success: function (itemData) {
             console.log('Editing item:', itemData.serial_code);
-
+            
+            var qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = '';
+            var qrcodeContainer = document.getElementById('editQrcode');
+            qrcodeContainer.innerHTML = '';
             // Show the modal
             document.getElementById('editItemModal').classList.remove('hidden');
 
@@ -171,7 +175,7 @@ function saveQR() {
     link.href = dataURL;
 
     // Set the download attribute with the desired filename
-    link.download = 'assets/qr/' + document.getElementById('serial_code').value + '.png';
+    //link.download = 'assets/qr/' + document.getElementById('serial_code').value + '.png';
 
     // Append the link to the document and trigger a click to start the download
     document.body.appendChild(link);
@@ -210,7 +214,7 @@ function editQR() {
     link.href = dataURL;
 
     // Set the download attribute with the desired filename
-    link.download = 'assets/qr/' + document.getElementById('editSerial_code').value + '.png';
+    //link.download = 'assets/qr/' + document.getElementById('editSerial_code').value + '.png';
 
     // Append the link to the document and trigger a click to start the download
     document.body.appendChild(link);

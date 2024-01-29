@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "assets/php/check_admin.php", true);
 
+    var logoutTimer; // Variable to store the timeout ID
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
@@ -13,12 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (data.isAdmin) {
                         // User is an admin, continue loading the page
+
+                        // Set a timer for 5 minutes (300000 milliseconds)
+                        logoutTimer = setTimeout(logoutUser, 300000);
+
                         console.log('User is an admin');
                         // Add your startup logic here
                     } else {
                         // User is not an admin, redirect to logout
                         console.log('User is not an admin');
-                        alert('Admin priviledge required to access page. Please login as admin.')
+                        alert('Admin privilege required to access the page. Please log in as admin.');
                         window.location.href = 'assets/php/logout.php';
                     }
                 } catch (error) {
@@ -31,4 +37,20 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     xhr.send();
+
+    // Function to logout the user
+    function logoutUser() {
+        alert('Logout due to inactivity.');
+        window.location.href = 'assets/php/logout.php';
+    }
+
+    // Add event listeners to reset the timer on user activity
+    document.addEventListener('mousemove', resetLogoutTimer);
+    document.addEventListener('keydown', resetLogoutTimer);
+
+    // Function to reset the logout timer
+    function resetLogoutTimer() {
+        clearTimeout(logoutTimer);
+        logoutTimer = setTimeout(logoutUser, 300000); // Reset the timer to 5 minutes
+    }
 });
