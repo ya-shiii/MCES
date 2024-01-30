@@ -1,11 +1,11 @@
 <?php
 include 'db_connect.php';
 
-// Fetch non-completed items based on session 'user_id'
+// Fetch all items based on session 'user_id' ordered by log_date in descending order
 session_start();
 $user_id = $_SESSION['user_id'];
 
-$query = "SELECT * FROM log_book WHERE user_id = '$user_id' AND status != 'completed' ORDER BY log_date DESC";
+$query = "SELECT * FROM log_book WHERE user_id = '$user_id' ORDER BY log_date DESC";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {

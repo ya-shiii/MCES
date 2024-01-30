@@ -91,6 +91,25 @@ function verifyUser(userId) {
     }
 }
 
+function addUser() {
+    // Show the addUser modal
+    document.getElementById('addUserModal').classList.remove('hidden');
+
+    // You may also want to reset the form fields here
+    document.getElementById('addUsername').value = '';
+    document.getElementById('addFirst_name').value = '';
+    document.getElementById('addLast_name').value = '';
+    document.getElementById('addEmail').value = '';
+    document.getElementById('addPassword').value = '';
+    document.getElementById('addDepartment').value = '';
+}
+
+// Function to cancel adding a user
+function canceladdUser() {
+    // Hide the addUser modal
+    document.getElementById('addUserModal').classList.add('hidden');
+}
+
 function editUser(userId) {
     // AJAX request to fetch user data
     $.ajax({

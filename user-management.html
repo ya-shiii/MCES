@@ -14,6 +14,8 @@
     <!-- DataTables JavaScript -->
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <!-- Checks admin authentication -->
+    <script src="assets/js/admin_checker.js"></script>
 </head>
 
 <body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]"
@@ -88,7 +90,7 @@
 
                         <div class="mt-20">
                             <div class="w-full mx-auto bg-blue-400 p-1 rounded-full my-3">
-                                <button
+                                <button onclick="addUser()"
                                     class="w-full bg-blue-400 text-white border-4 border-opacity-0 rounded-full py-3 text-2xl relative">
                                     <div class="flex justify-between items-center">
                                         <div class="w-full z-20">ADD USER</div>
@@ -107,6 +109,75 @@
             </div>
         </div>
 
+        <!-- Add Modal -->
+        <div id="addUserModal" class="modal hidden fixed inset-0 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <!-- Background overlay -->
+                <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                </div>
+
+                <!-- Modal content -->
+                <div class="fixed inset-0 flex items-center justify-center">
+                    <div
+                        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full">
+                        <div class="p-5 text-black font-bold text-2xl">Add Account</div>
+                        <form id="addUserForm" class="p-6" action="assets/php/add_user.php" method="POST">
+                            <div class="mb-4">
+                                <input type="hidden" id="userId" name="userId"
+                                    class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                <label for="addUsername"
+                                    class="block text-gray-700 text-sm font-medium mb-2">Username</label>
+                                <input type="text" id="addUsername" name="addUsername"
+                                    class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="addFirst_name" class="block text-gray-700 text-sm font-medium mb-2">First
+                                    Name</label>
+                                <input type="text" id="addFirst_name" name="addFirst_name"
+                                    class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="addLast_name" class="block text-gray-700 text-sm font-medium mb-2">Last
+                                    Name</label>
+                                <input type="text" id="addLast_name" name="addLast_name"
+                                    class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="addEmail" class="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                                <input type="email" id="addEmail" name="addEmail"
+                                    class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="addPassword"
+                                    class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                                <input type="password" id="addPassword" name="addPassword"
+                                    class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="addDepartment"
+                                    class="block text-gray-700 text-sm font-medium mb-2">Department</label>
+                                <input type="text" id="addDepartment" name="addDepartment"
+                                    class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                            </div>
+                            <!-- Form buttons -->
+                            <div class="mt-4 flex justify-end">
+                                <button type="button" onclick="canceladdUser()"
+                                    class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
         <div id="editUserModal" class="modal hidden fixed inset-0 overflow-y-auto">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <!-- Background overlay -->
