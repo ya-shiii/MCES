@@ -1,7 +1,8 @@
 <?php
 include 'db_connect.php';
 
-$query = "SELECT user_id, username, first_name, last_name, email, department, verified FROM user_list";
+$query = "SELECT * FROM user_list WHERE deleted_on IS NULL";
+
 $result = mysqli_query($conn, $query);
 
 if (!$result) {

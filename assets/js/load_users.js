@@ -38,11 +38,15 @@ function displayUserTable(userData) {
         columns: [
             { data: 'user_id', title: 'User ID' },
             { data: 'username', title: 'Username' },
-            { data: 'first_name', title: 'First Name' },
-            { data: 'last_name', title: 'Last Name' },
+            { data: 'full_name', title: 'Full Name' },
             { data: 'email', title: 'Email' },
             { data: 'department', title: 'Department' },
-            { data: 'verified', title: 'Verified' },
+            { data: 'u_role', title: 'Role' },
+            { data: 'group', title: 'Group' },
+            { data: 'contact_information', title: 'Contact Information' },
+            { data: 'u_description', title: 'Description' },
+            { data: 'created_on', title: 'Created On' },
+            { data: 'updated_on', title: 'Updated On' },
             {
                 // Custom column for actions
                 data: null,
@@ -53,7 +57,7 @@ function displayUserTable(userData) {
                     var deleteButton = '<button class="bg-red-500 w-20 text-white rounded px-2 py-1 m-2" onclick="deleteUser(' + row.user_id + ')">Delete</button>';
 
                     // Conditions based on user verification
-                    if (row.verified === 'no') {
+                    if (row.verified !== '1') {
                         return verifyButton + deleteButton;
                     } else {
                         return editButton + deleteButton;
@@ -63,6 +67,7 @@ function displayUserTable(userData) {
         ]
     });
 }
+
 
 function verifyUser(userId) {
     // Confirm verification
@@ -90,9 +95,41 @@ function verifyUser(userId) {
         });
     }
 }
-
-function addUser() {
+function addOptions() {
     // Show the addUser modal
+    document.getElementById('addOptionsModal').classList.remove('hidden');
+}
+function cancelOptions() {
+    // Hide the addUser modal
+    document.getElementById('addOptionsModal').classList.add('hidden');
+}
+
+// Function to show the Group form
+function showGroupForm() {
+    document.getElementById('groupForm').classList.remove('hidden');
+}
+
+// Function to hide the Group form
+function cancelAddGroup() {
+    document.getElementById('groupForm').classList.add('hidden');
+    document.getElementById('addOptionsModal').classList.remove('hidden');
+}
+
+// Function to show the Department form
+function showDepartmentForm() {
+    document.getElementById('departmentForm').classList.remove('hidden');
+}
+
+// Function to hide the Department form
+function cancelAddDepartment() {
+    document.getElementById('departmentForm').classList.add('hidden');
+    document.getElementById('addOptionsModal').classList.remove('hidden');
+}
+
+
+function showUserForm() {
+    // Show the Add User modal
+    document.getElementById('addOptionsModal').classList.add('hidden');
     document.getElementById('addUserModal').classList.remove('hidden');
 
     // You may also want to reset the form fields here
@@ -108,6 +145,7 @@ function addUser() {
 function canceladdUser() {
     // Hide the addUser modal
     document.getElementById('addUserModal').classList.add('hidden');
+    document.getElementById('addOptionsModal').classList.remove('hidden');
 }
 
 function editUser(userId) {
@@ -119,13 +157,15 @@ function editUser(userId) {
         success: function (userData) {
             console.log('Editing user:', userData.user_id);
             // Populate the modal form with user data
-            document.getElementById('userId').value = userData.user_id;
+            document.getElementById('editUserId').value = userData.user_id;
             document.getElementById('editUsername').value = userData.username;
-            document.getElementById('editFirst_name').value = userData.first_name;
-            document.getElementById('editLast_name').value = userData.last_name;
+            document.getElementById('editFullName').value = userData.full_name;
             document.getElementById('editEmail').value = userData.email;
-            document.getElementById('editPassword').value = userData.password;
             document.getElementById('editDepartment').value = userData.department;
+            document.getElementById('editRole').value = userData.u_role;
+            document.getElementById('editGroup').value = userData.group;
+            document.getElementById('editContactInfo').value = userData.contact_information;
+            document.getElementById('editDescription').value = userData.u_description;
 
             // Show the modal
             document.getElementById('editUserModal').classList.remove('hidden');

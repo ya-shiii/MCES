@@ -4,9 +4,10 @@ include 'db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve user_id from POST data
     $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
+    $current_time = date('Y-m-d H:i:s'); // Get the current timestamp
 
     // Update the user_list table to set verified to 'yes'
-    $query = "UPDATE user_list SET verified = 'yes' WHERE user_id = '$user_id'";
+    $query = "UPDATE user_list SET verified = '1', updated_on = '$current_time' WHERE user_id = '$user_id'";
     $result = mysqli_query($conn, $query);
 
     if ($result) {

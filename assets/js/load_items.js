@@ -40,7 +40,7 @@ function displayItemsTable(itemData) {
             { data: 'item_name', title: 'Item Name' },
             { data: 'total_items', title: 'Total Items' },
             { data: 'items_borrowed', title: 'Items Borrowed' },
-            { data: 'borrowable_items', title: 'Borrowable' },
+            { data: 'borrowable_items', title: 'In Stock' },
             {
                 // Custom column for actions
                 data: null,

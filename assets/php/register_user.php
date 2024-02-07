@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $group = mysqli_real_escape_string($conn, $_POST['addGroup']);
     $contact_info = mysqli_real_escape_string($conn, $_POST['addContactInfo']);
     $description = mysqli_real_escape_string($conn, $_POST['addDescription']);
-    $verified = 1;
+    $verified = 0;
     $current_time = date('Y-m-d H:i:s'); // Get the current timestamp
 
     // Check for duplicates
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (mysqli_num_rows($duplicateCheckResult) > 0) {
         $response = array('success' => false, 'message' => 'Username or email already exists');
-        echo '<script>alert("Username or email already exists"); window.location.href = "../../user-management.html";</script>';
+        echo '<script>alert("Username or email already exists. Please try again."); window.location.href = "../../";</script>';
         exit;
     } else {
         // Perform the insertion into the database
@@ -35,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($insertResult) {
             $response = array('success' => true, 'message' => 'User added successfully');
-            echo '<script>alert("User added successfully"); window.location.href = "../../user-management.html";</script>';
+            echo '<script>alert("Registered successfully. Please wait for admin approval"); window.location.href = "../../";</script>';
             exit;
         } else {
             $response = array('success' => false, 'message' => ': ' . mysqli_error($conn));
-            echo '<script>alert("Error adding user ' . mysqli_error($conn) . '"); window.location.href = "../../user-management.html";</script>';
+            echo '<script>alert("Error registering user ' . mysqli_error($conn) . '"); window.location.href = "../../";</script>';
             exit;
         }
     }
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     // Handle non-POST requests
     $response = array('success' => false, 'message' => 'Invalid request method');
-    echo '<script>alert("Invalid request method"); window.location.href = "../../user-management.html";</script>';
+    echo '<script>alert("Invalid request method"); window.location.href = "../../";</script>';
     exit;
 
 }

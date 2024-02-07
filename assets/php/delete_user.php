@@ -6,7 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = mysqli_real_escape_string($conn, $_POST['user_id']);
 
     // Perform the deletion in the database
-    $query = "DELETE FROM user_list WHERE user_id = '$user_id'";
+    // Assuming $user_id contains the ID of the user you want to "delete"
+    $current_time = date('Y-m-d H:i:s'); // Get the current timestamp
+
+    $query = "UPDATE user_list SET deleted_on = '$current_time' WHERE user_id = '$user_id'";
+
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
