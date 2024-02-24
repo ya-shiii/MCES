@@ -15,12 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = password_hash($_POST['editPassword'], PASSWORD_DEFAULT);
     $department = mysqli_real_escape_string($conn, $_POST['editDepartment']);
     $description = mysqli_real_escape_string($conn, $_POST['editDescription']);
+    $currenttime = date('Y-m-d H:i:s'); // Get the current date and time
 
     // Get user_id from the session
     if (isset($user_id)) {
         $query = "UPDATE user_list 
                   SET username = '$username', full_name = '$full_name', `group` = '$group', 
-                      email = '$email', `password` = '$password', department = '$department', u_role = '$role', u_description = '$description'
+                      email = '$email', `password` = '$password', department = '$department', u_role = '$role', u_description = '$description', updated_on = '$currenttime'
                   WHERE user_id = '$user_id'";
 
         $result = mysqli_query($conn, $query);

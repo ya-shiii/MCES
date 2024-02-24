@@ -16,8 +16,11 @@
         src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <!-- Checks admin authentication -->
     <script src="assets/js/admin_checker.js"></script>
-    <!-- Include the qrcode.js library -->
-    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <!-- Include the qrious library for qr generator-->
+    <script src="https://cdn.jsdelivr.net/npm/qrious"></script>
+
+
+
 </head>
 
 <body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]"
@@ -29,7 +32,7 @@
                 <div class="text-2xl font-black ">Admin</div>
                 <div class="flex space-x-6">
                     <a href="dashboard.html" class="px-4 hover:text-blue-300">Dashboard</a>
-                    <a href="tracking.html" class="px-4 text-blue-300">Item Tracking</a>
+                    <a href="tracking.html" class="px-4 text-blue-300">School Assets</a>
                     <a href="log-book.html" class="px-4 hover:text-blue-300">Log Book</a>
                     <a href="analytics.html" class="px-4 hover:text-blue-300">Analytics</a>
                     <a href="user-management.html" class="px-4 hover:text-blue-300">User Management</a>
@@ -39,79 +42,104 @@
         </div>
 
         <div class="w-11/12 mx-auto">
-            <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">ITEM TRACKING</h1>
+            <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">SCHOOL ASSETS</h1>
             <div class="flex flex-column mt-2">
                 <div class="p-0 flex w-full h-5/6">
-                    <div class="w-1/4 m-0">
+                    <div class="w-1/5 m-0">
                         <div class="shadow-2xl bg-blue-100 p-5 rounded-lg">
-                            <a href="tracking.html">
-                                <div class="w-full mx-auto bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            <div>
+                                <div class="w-full mx-auto bg-blue-900 p-1 rounded-lg my-3" id="assetTablediv">
+                                    <button onclick="showAssetTable()" id="assetTablebtn"
                                         class="w-full bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">ITEM TRACKING</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">ASSETS LIST</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
-                            <a href="log-book.html">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            </div>
+                            <div>
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="historyTablediv">
+                                    <button onclick="showHistoryTable()" id="historyTablebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">LOG BOOK</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">ASSET HISTORY</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
-                            <a href="analytics.html">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            </div>
+                            <div>
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="assetTypediv">
+                                    <button onclick="showTypesTable()" id="assetTypebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">ANALYTICS</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">ASSET TYPES</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
-                            <a href="user-management.html">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            </div>
+                            <div>
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="disposedDiv">
+                                    <button onclick="showDisposedTable()" id="disposedBtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">USER MANAGEMENT</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">DISPOSED ASSETS</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
+                            </div>
                         </div>
 
                         <div class="mt-20">
                             <div class="w-full mx-auto bg-blue-400 p-1 rounded-full my-3">
-                                <button onclick="addItemModal()"
+                                <button onclick="addOptions()"
                                     class="w-full bg-blue-400 text-white border-4 border-opacity-0 rounded-full py-3 text-2xl relative">
                                     <div class="flex justify-between items-center">
-                                        <div class="w-full z-20">ADD ITEM</div>
-                                        <div class="z-10 pr-5 font-black">+</div>
+                                        <div class="w-full z-20">ADD +</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-5">
+                            <div class="w-full mx-auto bg-blue-400 p-1 rounded-full my-3">
+                                <button onclick="searchQR()"
+                                    class="w-full bg-blue-400 text-white border-4 border-opacity-0 rounded-full py-3 text-2xl relative">
+                                    <div class="flex justify-between items-center">
+                                        <div class="w-full z-20">SEARCH via QR</div>
                                     </div>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="w-11/12 pl-40 text-center h-full ">
-                        <div id="itemsTable" class="bg-blue-200 h-full p-5 overflow-y-auto">
-                            <!-- Items data table will be displayed here -->
+                    <div class="w-11/12 pl-20 text-center h-full mb-20">
+                        <div id="itemsTable" class="bg-blue-200 p-5 w-full h-full">
+                            <div class="h-full w-full overflow-y-auto">
+                                <!-- Items data table will be displayed here -->
+                            </div>
+                        </div>
+
+                        <div id="assetTable" class="hidden bg-blue-200 h-full p-5 w-full">
+                            <div class="overflow-y-auto w-full">
+                                <!-- Assets data table will be displayed here -->
+                            </div>
+                        </div>
+
+
+                        <div id="assetTypes" class="bg-blue-200 h-full p-5 overflow-y-auto w-full hidden">
+                            <!-- Asset types data table will be displayed here -->
+                        </div>
+
+                        <div id="disposedAssets" class="bg-blue-200 h-full p-5 overflow-y-auto w-full hidden">
+                            <!-- Disposed assets table will be displayed here -->
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Add Modal -->
-            <div id="addItemModal" class="modal hidden fixed inset-0 overflow-y-auto">
+            <!-- Add Options Modal -->
+            <div id="addOptionsModal" class="modal hidden fixed inset-0 overflow-y-auto">
                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <!-- Background overlay -->
                     <div class="fixed inset-0 transition-opacity" aria-hidden="true">
@@ -121,47 +149,259 @@
                     <!-- Modal content -->
                     <div class="fixed inset-0 flex items-center justify-center">
                         <div
+                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
+                            <div class="flex justify-end pr-4 pt-2">
+                                <button onclick="cancelOptions()"
+                                    class="text-gray-500 hover:text-gray-800 focus:outline-none">
+                                    <svg class="h-6 w-6 fill-current" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM5.293 6.707a1 1 0 1 1 1.414-1.414L10 8.586l3.293-3.293a1 1 0 1 1 1.414 1.414L11.414 10l3.293 3.293a1 1 0 1 1-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 0 1-1.414-1.414L8.586 10 5.293 6.707z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="p-5 text-black font-bold text-2xl">Add Options</div>
+                            <div class="p-5">
+                                <!-- Buttons for New User, New assetType, and New Department -->
+                                <button onclick="showAssetForm()"
+                                    class="mr-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                                    New Asset
+                                </button>
+                                <button onclick="showAssetTypeForm()"
+                                    class="mr-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                                    New Asset Type
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Add Item Modal -->
+            <div id="addItemModal" class="modal hidden fixed inset-0 overflow-y-auto">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <!-- Background overlay -->
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+
+                    <!-- Modal content -->
+                    <div class="fixed inset-0 flex items-center justify-center overflow-y-auto">
+                        <div
                             class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full">
                             <div class="p-5 text-black font-bold text-2xl">Add Item</div>
                             <form id="addItemForm" class="p-6" action="assets/php/add_item.php" method="POST">
-                                <div class="mb-4">
+                                <div class="form-section" id="section1">
+                                    <div class="mb-4">
+                                        <label for="item_name" class="block text-gray-700 text-sm font-medium mb-2">Item
+                                            Name</label>
+                                        <input type="text" id="item_name" name="item_name"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="type"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Type</label>
+                                        <select id="type" name="type"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                            <option value="">Select Type</option>
+                                        </select>
+                                    </div>
 
-                                    <!-- for qr code -->
-                                    <div id="qrcode" class="mt-4"></div>
-                                    <!-- Hidden input for storing QR code data URL -->
-                                    <input type="hidden" id="qr_data_url" name="qr_data_url">
-
-                                    <label for="serial_code" class="block text-gray-700 text-sm font-medium mb-2">Serial
-                                        Code</label>
-                                    <input type="text" id="serial_code" name="serial_code"
-                                        class="border border-gray-300 py-2 px-5 rounded-full" required>
-                                    <button type="button" onclick="generateQR()"
-                                        class="ml-5 px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-200 hover:text-black focus:outline-none focus:ring focus:border-blue-300">
-                                        Generate QR Code
-                                    </button>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="item_name" class="block text-gray-700 text-sm font-medium mb-2">Item
-                                        Name</label>
-                                    <input type="text" id="item_name" name="item_name"
-                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="total_items" class="block text-gray-700 text-sm font-medium mb-2">Total
-                                        Items</label>
-                                    <input type="number" id="total_items" name="total_items"
-                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
-                                </div>
-                                <!-- Form buttons -->
-                                <div class="mt-4 flex justify-end">
+                                    <div class="mb-4">
+                                        <label for="total_items"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Total Items</label>
+                                        <input type="number" id="total_items" name="total_items"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="price_per_item"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Price per Item
+                                            (Pesos)</label>
+                                        <input type="number" id="price_per_item" name="price_per_item"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="mode_of_procurement"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Mode of
+                                            Procurement</label>
+                                        <input type="text" id="mode_of_procurement" name="mode_of_procurement"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="location"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Location</label>
+                                        <input type="text" id="location" name="location"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
                                     <button type="button" onclick="cancelAddItem()"
                                         class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
                                         Cancel
                                     </button>
-                                    <button type="submit" onclick="generateQR(); saveQR();"
+                                    <button type="button" onclick="nextSection()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Next</button>
+                                </div>
+                                <div class="form-section" id="section2" hidden>
+                                    <div class="mb-4">
+                                        <label for="description"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Description</label>
+                                        <textarea id="description" name="description"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full"
+                                            required></textarea>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="warranty_expiry_date"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Warranty Expiry
+                                            Date</label>
+                                        <input type="date" id="warranty_expiry_date" name="warranty_expiry_date"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="manufacturer"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Manufacturer</label>
+                                        <input type="text" id="manufacturer" name="manufacturer"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="lifespan"
+                                            class="block text-gray-700 text-sm font-medium mb-2">Lifespan</label>
+                                        <input type="number" id="lifespan" name="lifespan"
+                                            class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                                    <button type="button" onclick="cancelAddItem()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
+                                        Cancel
+                                    </button>
+                                    <button type="button" onclick="prevSection()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Previous</button>
+                                    <button type="submit"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asset Type Form -->
+            <div id="assetTypeForm" class="modal hidden fixed inset-0 overflow-y-auto">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <!-- Background overlay -->
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+
+                    <!-- Modal content -->
+                    <div class="fixed inset-0 flex items-center justify-center">
+                        <div
+                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
+                            <div class="p-5 text-black font-bold text-2xl">New Asset Type</div>
+                            <form id="addassetTypeForm" class="p-6" action="assets/php/add_assetType.php" method="POST">
+                                <div class="mb-4">
+                                    <label for="assetTypeName"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Name</label>
+                                    <input type="text" id="assetTypeName" name="assetTypeName"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="assetTypeDescription"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Description</label>
+                                    <textarea id="assetTypeDescription" name="assetTypeDescription"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-lg" required></textarea>
+                                </div>
+                                <!-- Form buttons -->
+                                <div class="mt-4 flex justify-end">
+                                    <button type="button" onclick="cancelAddassetType()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
                                         class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
                                         Save Changes
                                     </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Item Form -->
+            <div id="deleteItemForm" class="modal hidden fixed inset-0 overflow-y-auto">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <!-- Background overlay -->
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+
+                    <!-- Modal content -->
+                    <div class="fixed inset-0 flex items-center justify-center">
+                        <div
+                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
+                            <div class="p-5 text-black font-bold text-2xl">Delete Item</div>
+                            <form id="deleteItemFormContent" class="p-6" action="assets/php/delete_item.php"
+                                method="POST">
+                                <!-- Hidden input for qr_serial -->
+                                <input type="hidden" id="qr_serial" name="qr_serial">
+                                <div class="mb-4">
+                                    <label for="reason" class="block text-gray-700 text-sm font-medium mb-2">Reason for
+                                        Deletion</label>
+                                    <textarea id="reason" name="reason"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-lg" required></textarea>
+                                </div>
+                                <!-- Form buttons -->
+                                <div class="mt-4 flex justify-end">
+                                    <button type="button" onclick="cancelDeleteItem()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:border-blue-300">
+                                        Delete Item
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search via QR Form with Image Upload -->
+            <div id="searchQR" class="modal hidden fixed inset-0 overflow-y-auto">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <!-- Background overlay -->
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+
+                    <!-- Modal content -->
+                    <div class="fixed inset-0 flex items-center justify-center">
+                        <div
+                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
+                            <div class="p-5 text-black font-bold text-2xl">Search via QR with Image Upload</div>
+                            <form id="searchQRFormContent" class="p-6">
+                                <div class="mb-4">
+                                    <label for="fileInput" class="block text-gray-700 text-sm font-medium mb-2">Upload
+                                        Image
+                                        with QR</label>
+                                    <input type="file" id="fileInput" name="fileInput" accept="image/*"
+                                        onchange="handleImageUpload(event)"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-lg" required>
+
+                                </div>
+                                <!-- Image Preview -->
+                                <div id="imagePreview" class="mb-4"></div>
+                                <div id="qrStatus" class="text-lg"></div>
+                                <div id="qrSerial" class="hidden"></div>
+
+                                <!-- Form buttons -->
+                                <div class="mt-4 flex justify-end">
+                                    <button type="button" onclick="cancelSearchQR()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Cancel</button>
+                                    <button type="button" onclick="scanQR()" disabled id="scanButton"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">Scan
+                                        for QR</button>
                                 </div>
                             </form>
                         </div>
@@ -185,23 +425,12 @@
                             <div class="p-5 text-black font-bold text-2xl">Edit Item</div>
                             <form id="editItemForm" class="p-6" action="assets/php/edit_item.php" method="POST">
                                 <div class="mb-4">
-
-                                    <!-- for qr code -->
-                                    <div id="editQrcode" class="mt-4"></div>
-                                    <!-- Hidden input for storing QR code data URL -->
-                                    <input type="hidden" id="edit_qr_data_url" name="edit_qr_data_url">
-
-                                    <label for="editSerial_code"
-                                        class="block text-gray-700 text-sm font-medium mb-2">Serial
-                                        Code</label>
-                                    <input type="hidden" id="oldSerial_code" name="oldSerial_code"
-                                        class="uppercase border border-gray-300 py-2 px-5 rounded-full" required>
-                                    <input type="text" id="editSerial_code" name="editSerial_code"
-                                        class="uppercase border border-gray-300 py-2 px-5 rounded-full" required>
-                                    <button type="button" onclick="generateNewQR()"
-                                        class="ml-5 px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-200 hover:text-black focus:outline-none focus:ring focus:border-blue-300">
-                                        Generate QR Code
-                                    </button>
+                                    <label for="edit_qr_serial" class="block text-gray-700 text-sm font-medium mb-2">QR
+                                        Serial</label>
+                                    <input type="hidden" id="qr_serial_hidden" name="qr_serial_hidden"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    <input type="text" id="edit_qr_serial" name="edit_qr_serial"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
                                 </div>
                                 <div class="mb-4">
                                     <label for="editItem_name" class="block text-gray-700 text-sm font-medium mb-2">Item
@@ -210,12 +439,47 @@
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="editTotal_items"
-                                        class="block text-gray-700 text-sm font-medium mb-2">Total
-                                        Items</label>
-                                    <input type="number" id="editTotal_items" name="editTotal_items"
+                                    <label for="edit_item_type"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Item Type</label>
+                                    <select id="edit_item_type" name="edit_item_type"
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
-                                    <input type="hidden" id="borrowed_items" name="borrowed_items"
+                                        <option value="">Select Item Type</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_mode_of_procurement"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Mode of Procurement</label>
+                                    <input type="text" id="edit_mode_of_procurement" name="edit_mode_of_procurement"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_warranty_expiration"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Warranty Expiration</label>
+                                    <input type="date" id="edit_warranty_expiration" name="edit_warranty_expiration"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_serial_number"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Serial Number</label>
+                                    <input type="text" id="edit_serial_number" name="edit_serial_number"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_manufacturer"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Manufacturer</label>
+                                    <input type="text" id="edit_manufacturer" name="edit_manufacturer"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_lifespan"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Lifespan (Yrs)</label>
+                                    <input type="number" id="edit_lifespan" name="edit_lifespan"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_current_location"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Current Location</label>
+                                    <input type="text" id="edit_current_location" name="edit_current_location"
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                                 </div>
                                 <!-- Form buttons -->
@@ -224,21 +488,29 @@
                                         class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
                                         Cancel
                                     </button>
-                                    <button type="submit" onclick="generateNewQR(); editQR();"
+                                    <button type="submit"
                                         class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
                                         Save Changes
                                     </button>
                                 </div>
                             </form>
+
+
                         </div>
                     </div>
                 </div>
             </div>
 
         </div>
+        <!-- Placeholder for QR codes -->
+        <div style="display: none;" id="temp-qrcode"></div>
+
+        <!-- for reading QR -->
+        <script src="https://cdn.jsdelivr.net/npm/jsqr"></script>
 
         <!-- Load Items Table -->
         <script src="assets/js/load_items.js"></script>
+
 </body>
 
 </html>

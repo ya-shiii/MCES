@@ -81,10 +81,10 @@
                 .then(data => {
                     //for debugging
                     //console.log('User ID:', data.user_id);
-                    //console.log('Last Name:', data.last_name);
+                    //console.log('Full Name:', data.full_name);
 
                     // Display the last name in the session in the span with id 'teacher-name'
-                    document.getElementById('teacher-name').textContent = data.last_name;
+                    document.getElementById('teacher-name').textContent = data.full_name;
                 })
                 .catch(error => console.error('Error fetching user data:', error));
         </script>

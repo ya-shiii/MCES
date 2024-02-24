@@ -7,48 +7,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
 
     // Sanitize the input to prevent SQL injection
-    $serialCode = mysqli_real_escape_string($conn, $_POST['serial_code']);
-    $itemName = $_POST['item_name'];
+    $itemName = mysqli_real_escape_string($conn, $_POST['item_name']);
+    $type = mysqli_real_escape_string($conn, $_POST['type']);
     $totalItems = $_POST['total_items'];
+    $pricePerItem = $_POST['price_per_item'];
+    $modeOfProcurement = mysqli_real_escape_string($conn, $_POST['mode_of_procurement']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
+    $warrantyExpiryDate = $_POST['warranty_expiry_date'];
+    $manufacturer = mysqli_real_escape_string($conn, $_POST['manufacturer']);
+    $lifespan = $_POST['lifespan'];
+    $current_time = date('Y-m-d H:i:s'); // Get the current timestamp
+    $location = "School"; // Assuming location is fixed as "School" for all entries
 
-    // Check for duplicate serial code
-    $duplicateCheckQuery = "SELECT * FROM school_items WHERE serial_code = '$serialCode'";
-    $duplicateCheckResult = mysqli_query($conn, $duplicateCheckQuery);
+    // Calculate total price
+    $totalPrice = $totalItems * $pricePerItem;
 
-    if (mysqli_num_rows($duplicateCheckResult) > 0) {
-        // Duplicate serial code found
-        $response = array('success' => false, 'message' => 'Duplicate serial code. Please use a different one.');
-    } else {
-        // No duplicate, add the item to the database
-        $addItemQuery = "INSERT INTO school_items (serial_code, item_name, total_items) VALUES ('$serialCode', '$itemName', $totalItems)";
-        if (mysqli_query($conn, $addItemQuery)) {
-            // Item added successfully
+    // Insert data into the school asset table
+    $sql = "INSERT INTO school_asset (name, type, number_of_items, price_per_item, total_price, mode_of_procurement, location, acquired_at) VALUES ('$itemName', '$type', $totalItems, $pricePerItem, $totalPrice, '$modeOfProcurement', '$location', '$current_time')";
 
-            // Save QR code image to a file
-            $dataURL = $_POST['qr_data_url'];
-            $data = explode(',', $dataURL);
-            $base64Data = $data[1];
-            $decodedData = base64_decode($base64Data);
-            file_put_contents('../../assets/qr/' . $serialCode . '.png', $decodedData);
+    // Execute the query
+    if (mysqli_query($conn, $sql)) {
+        // Retrieve the asset_id of the inserted entry
+        $assetId = mysqli_insert_id($conn);
+        $qrSerials = array();
 
-            $response = array('success' => true, 'message' => 'Item added successfully');
-        } else {
-            // Error adding item
-            $response = array('success' => false, 'message' => 'Error adding item to the database');
+        // Loop to insert school items based on total_items
+        for ($i = 1; $i <= $totalItems; $i++) {
+            // Construct the qr_serial in the specified format
+            $qrSerial = "MCES" . date('Y') . "00" . $assetId . $i;
+            $qrSerials[] = $qrSerial; // Store the QR serial in an array
+
+            // Insert data into the school items table
+            $sql2 = "INSERT INTO school_items (qr_serial, item_name, description, type, mode_of_procurement, warranty_expiry_date, manufacturer, lifespan, expected_end_date, acquired_at, location) VALUES ('$qrSerial', '$itemName', '$description', '$type', '$modeOfProcurement', '$warrantyExpiryDate', '$manufacturer', '$lifespan', DATE_ADD('$current_time', INTERVAL '$lifespan' YEAR), '$current_time', '$location')";
+
+            // Execute the query
+            mysqli_query($conn, $sql2);
         }
+
+        // Set success message if all insertions are successful
+        $response = $qrSerials;
+    } else {
+        $response = "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 
     // Close database connection
     mysqli_close($conn);
 
-    // Alert the user with the response message
-    echo '<script>alert("' . $response['message'] . '");</script>';
-
-    // Redirect to tracking.html
-    echo '<script>window.location.href = "../../tracking.html";</script>';
+    // Return response to client-side JavaScript
+    echo json_encode($response);
 } else {
-    // If the form is not submitted, redirect to tracking.html
-    header('Location: ../../tracking.html');
-    exit();
+    // If the form is not submitted, return an error message
+    echo "Error: Form not submitted";
 }
 ?>

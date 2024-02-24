@@ -4,7 +4,7 @@ session_start();
 // For fetching user data
 $userData = array(
     'user_id' => $_SESSION['user_id'],
-    'last_name' => $_SESSION['last_name']
+    'full_name' => $_SESSION['full_name']
 );
 
 // Return the user data as JSON

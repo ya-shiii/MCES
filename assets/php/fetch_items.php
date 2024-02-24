@@ -1,7 +1,7 @@
 <?php
 include 'db_connect.php';
 
-$query = "SELECT * FROM school_items";
+$query = "SELECT * FROM school_items WHERE item_status != 'Disposed'";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
