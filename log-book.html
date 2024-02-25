@@ -29,7 +29,7 @@
                     <a href="dashboard.html" class="px-4 hover:text-blue-300">Dashboard</a>
                     <a href="tracking.html" class="px-4 hover:text-blue-300">School Assets</a>
                     <a href="log-book.html" class="px-4 text-blue-300">Log Book</a>
-                    <a href="analytics.html" class="px-4 hover:text-blue-300">Analytics</a>
+                    <a href="analytics.html" class="px-4 hover:text-blue-300">Transactions</a>
                     <a href="user-management.html" class="px-4 hover:text-blue-300">User Management</a>
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
@@ -42,55 +42,57 @@
                 <div class="p-0 flex w-full h-5/6">
                     <div class="w-1/4 m-0">
                         <div class="shadow-2xl bg-blue-100 p-5 rounded-lg">
-                            <a href="tracking.html">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
-                                        class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
-                                        <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">SCHOOL ASSETS</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </a>
-                            <a href="log-book.html">
-                                <div class="w-full mx-auto bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            <div>
+                                <div class="w-full mx-auto bg-blue-900 p-1 rounded-lg my-3" id="pendingTablediv">
+                                    <button onclick="showPending()" id="pendingTablebtn"
                                         class="w-full bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">LOG BOOK</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">PENDING LIST</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
-                            <a href="analytics.html">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            </div>
+                            <div>
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="borrowTablediv">
+                                    <button onclick="showBorrowed()" id="borrowTablebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">ANALYTICS</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">BORROWED LIST</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
-                            <a href="user-management.html">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            </div>
+                            <div>
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="completeTablediv">
+                                    <button onclick="showComplete()" id="completeTablebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">USER MANAGEMENT</div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">COMPLETED LIST</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                     <div class="w-11/12 pl-40 text-center h-full p-5 bg-white bg-opacity-20">
-                        <div id="logsTable" class="bg-blue-200 h-full p-5 overflow-y-auto">
-                            <!-- Items data table will be displayed here -->
+                        <div id="pendingTable" class="bg-blue-200 p-5 w-full h-full">
+                            <div class="h-full w-full overflow-y-auto">
+                                <!-- Items data table will be displayed here -->
+                            </div>
+                        </div>
+
+                        <div id="borrowTable" class="bg-blue-200 h-full p-5 w-full my-2">
+                            <div class="overflow-y-auto w-full">
+                                <!-- Assets data table will be displayed here -->
+                            </div>
+                        </div>
+
+                        <div id="completeTypes" class="bg-blue-200 h-full p-5 w-full my-2">
+                            <div class="overflow-y-auto w-full">
+                                <!-- Asset types data table will be displayed here -->
+                            </div>
                         </div>
                     </div>
                 </div>

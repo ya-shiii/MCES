@@ -29,7 +29,7 @@
                     <a href="dashboard.html" class="px-4 hover:text-blue-300">Dashboard</a>
                     <a href="tracking.html" class="px-4 hover:text-blue-300">School Assets</a>
                     <a href="log-book.html" class="px-4 hover:text-blue-300">Log Book</a>
-                    <a href="analytics.html" class="px-4 hover:text-blue-300">Analytics</a>
+                    <a href="analytics.html" class="px-4 hover:text-blue-300">Transactions</a>
                     <a href="user-management.html" class="px-4 text-blue-300">User Management</a>
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
@@ -43,8 +43,8 @@
                     <div class="w-1/4 m-0">
                         <div class="shadow-2xl bg-blue-100 p-5 rounded-lg">
                             <div>
-                                <div class="w-full mx-auto bg-blue-900  p-1 rounded-lg my-3">
-                                    <button
+                                <div class="w-full mx-auto bg-blue-900  p-1 rounded-lg my-3" id="userTablediv">
+                                    <button onclick="showUsers()" id="userTablebtn"
                                         class="w-full bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
                                             <div class="w-full z-20">USERS</div>
@@ -53,8 +53,9 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="deptTablediv">
+                                    <button onclick="showDept()" id="deptTablebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
                                             <div class="w-full z-20">DEPARTMENTS</div>
@@ -63,8 +64,9 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="groupTablediv">
+                                    <button onclick="showGroup()" id="groupTablebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
                                             <div class="w-full z-20">GROUPS</div>
@@ -72,7 +74,7 @@
                                     </button>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="mt-20">
@@ -86,9 +88,21 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-11/12 pl-10 text-center h-full ">
-                        <div id="userTable" class="bg-blue-200 h-full p-5 overflow-y-auto">
-                            <!-- User data table will be displayed here -->
+                    <div class="w-11/12 pl-10 text-center">
+                        <div id="userTable" class="w-full bg-blue-200 p-5 my-2">
+                            <div class=" p-5 overflow-y-auto">
+                                <!-- User data table will be displayed here -->
+                            </div>
+                        </div>
+                        <div id="deptTable" class="w-full bg-blue-200 p-5 my-2 hidden">
+                            <div class=" p-5 overflow-y-auto">
+                                <!-- User data table will be displayed here -->
+                            </div>
+                        </div>
+                        <div id="groupTable" class="w-full bg-blue-200 p-5 my-2 hidden">
+                            <div class=" p-5 overflow-y-auto">
+                                <!-- User data table will be displayed here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -266,7 +280,8 @@
                                     class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                             </div>
                             <div class="mb-4">
-                                <label for="editEmail" class="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                                <label for="editEmail"
+                                    class="block text-gray-700 text-sm font-medium mb-2">Email</label>
                                 <input type="email" id="editEmail" name="editEmail"
                                     class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                             </div>
@@ -285,7 +300,8 @@
                                     class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                             </div>
                             <div class="mb-4">
-                                <label for="editGroup" class="block text-gray-700 text-sm font-medium mb-2">Group</label>
+                                <label for="editGroup"
+                                    class="block text-gray-700 text-sm font-medium mb-2">Group</label>
                                 <select id="editGroup" name="editGroup"
                                     class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                                     <option value="">Select Group</option>
@@ -293,7 +309,8 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label for="editContactInfo" class="block text-gray-700 text-sm font-medium mb-2">Contact
+                                <label for="editContactInfo"
+                                    class="block text-gray-700 text-sm font-medium mb-2">Contact
                                     Information</label>
                                 <input type="text" id="editContactInfo" name="editContactInfo"
                                     class="w-full border border-gray-300 py-2 px-5 rounded-full" required>

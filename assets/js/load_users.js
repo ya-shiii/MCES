@@ -68,6 +68,113 @@ function displayUserTable(userData) {
     });
 }
 
+// load dept table
+$(document).ready(function () {
+    // Fetch user data using AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "assets/php/fetch_departments.php", true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // Parse the JSON response
+                try {
+                    var deptData = JSON.parse(xhr.responseText);
+                    console.log('JSON response from fetch_departments.php:', deptData);
+
+                    // Display the user table using DataTable
+                    displaydeptTable(deptData);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            } else {
+                console.error('Error fetching data. Status:', xhr.status);
+            }
+        }
+    };
+
+    xhr.send();
+});
+
+function displaydeptTable(deptData) {
+    // Create a table with the DataTable class
+    var table = $('<table>').addClass('display').attr('id', 'deptDataTable');
+
+    // Append the table to the container
+    $('#deptTable').empty().append(table);
+
+    // Initialize DataTable
+    $('#deptDataTable').DataTable({
+        data: deptData,
+        columns: [
+            { data: 'name', title: 'Department' },
+            { data: 'description', title: 'Description' },
+            {
+                // Custom column for actions
+                data: null,
+                title: 'Actions',
+                render: function (data, type, row) {
+                    var deleteButton = '<button class="bg-red-500 w-20 text-white rounded px-2 py-1 m-2" onclick="deleteDept(' + row.id + ')">Delete</button>';
+                    return deleteButton;
+                }
+            }
+        ]
+    });
+}
+
+// load groups table
+$(document).ready(function () {
+    // Fetch user data using AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "assets/php/fetch_groups.php", true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // Parse the JSON response
+                try {
+                    var groupData = JSON.parse(xhr.responseText);
+                    console.log('JSON response from fetch_groups.php:', groupData);
+
+                    // Display the user table using DataTable
+                    displaygroupTable(groupData);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            } else {
+                console.error('Error fetching data. Status:', xhr.status);
+            }
+        }
+    };
+
+    xhr.send();
+});
+
+function displaygroupTable(groupData) {
+    // Create a table with the DataTable class
+    var table = $('<table>').addClass('display').attr('id', 'groupDataTable');
+
+    // Append the table to the container
+    $('#groupTable').empty().append(table);
+
+    // Initialize DataTable
+    $('#groupDataTable').DataTable({
+        data: groupData,
+        columns: [
+            { data: 'name', title: 'Group Name' },
+            { data: 'description', title: 'Description' },
+            {
+                // Custom column for actions
+                data: null,
+                title: 'Actions',
+                render: function (data, type, row) {
+                    var deleteButton = '<button class="bg-red-500 w-20 text-white rounded px-2 py-1 m-2" onclick="deleteGroup(' + row.id + ')">Delete</button>';
+                    return deleteButton;
+                }
+            }
+        ]
+    });
+}
 
 function verifyUser(userId) {
     // Confirm verification
@@ -201,4 +308,104 @@ function deleteUser(userId) {
     }
 }
 
+function deleteDept(dept_id) {
+    // Confirm deletion
+    if (confirm('Are you sure you want to delete this department?')) {
+        // Perform AJAX request to delete_dept.php
+        $.ajax({
+            type: 'POST',
+            url: 'assets/php/delete_dept.php',
+            data: { id: dept_id },
+            dataType: 'json', // Specify JSON data type
+            success: function (response) {
+                console.log(response);
 
+                // Reload the DataTable after deletion
+                location.reload();
+            },
+            error: function (error) {
+                console.error('Error deleting department:', error);
+            }
+        });
+    }
+}
+
+function deleteGroup(group_id) {
+    // Confirm deletion
+    if (confirm('Are you sure you want to delete this group?')) {
+        // Perform AJAX request to delete_dept.php
+        $.ajax({
+            type: 'POST',
+            url: 'assets/php/delete_group.php',
+            data: { id: group_id },
+            dataType: 'json', // Specify JSON data type
+            success: function (response) {
+                console.log(response);
+
+                // Reload the DataTable after deletion
+                location.reload();
+            },
+            error: function (error) {
+                console.error('Error deleting department:', error);
+            }
+        });
+    }
+}
+
+
+
+// interactive buttons
+function showUsers() {
+    // Show the Disposed Asset table
+    document.getElementById('userTable').classList.remove('hidden');
+    document.getElementById('deptTable').classList.add('hidden');
+    document.getElementById('groupTable').classList.add('hidden');
+    document.getElementById('userTablediv').classList.add('bg-blue-900');
+    document.getElementById('userTablebtn').classList.add('bg-blue-900');
+    document.getElementById('userTablediv').classList.remove('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('userTablebtn').classList.remove('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('deptTablediv').classList.remove('bg-blue-900');
+    document.getElementById('deptTablebtn').classList.remove('bg-blue-900');
+    document.getElementById('deptTablediv').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('deptTablebtn').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('groupTablediv').classList.remove('bg-blue-900');
+    document.getElementById('groupTablebtn').classList.remove('bg-blue-900');
+    document.getElementById('groupTablediv').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('groupTablebtn').classList.add('bg-sky-900', 'hover:bg-blue-900');
+}
+function showDept() {
+    // Show the Disposed Asset table
+    document.getElementById('userTable').classList.add('hidden');
+    document.getElementById('deptTable').classList.remove('hidden');
+    document.getElementById('groupTable').classList.add('hidden');
+    document.getElementById('userTablediv').classList.remove('bg-blue-900');
+    document.getElementById('userTablebtn').classList.remove('bg-blue-900');
+    document.getElementById('userTablediv').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('userTablebtn').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('deptTablediv').classList.add('bg-blue-900');
+    document.getElementById('deptTablebtn').classList.add('bg-blue-900');
+    document.getElementById('deptTablediv').classList.remove('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('deptTablebtn').classList.remove('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('groupTablediv').classList.remove('bg-blue-900');
+    document.getElementById('groupTablebtn').classList.remove('bg-blue-900');
+    document.getElementById('groupTablediv').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('groupTablebtn').classList.add('bg-sky-900', 'hover:bg-blue-900');
+}
+function showGroup() {
+    // Show the Disposed Asset table
+    document.getElementById('userTable').classList.add('hidden');
+    document.getElementById('deptTable').classList.add('hidden');
+    document.getElementById('groupTable').classList.remove('hidden');
+    document.getElementById('userTablediv').classList.remove('bg-blue-900');
+    document.getElementById('userTablebtn').classList.remove('bg-blue-900');
+    document.getElementById('userTablediv').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('userTablebtn').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('deptTablediv').classList.remove('bg-blue-900');
+    document.getElementById('deptTablebtn').classList.remove('bg-blue-900');
+    document.getElementById('deptTablediv').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('deptTablebtn').classList.add('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('groupTablediv').classList.add('bg-blue-900');
+    document.getElementById('groupTablebtn').classList.add('bg-blue-900');
+    document.getElementById('groupTablediv').classList.remove('bg-sky-900', 'hover:bg-blue-900');
+    document.getElementById('groupTablebtn').classList.remove('bg-sky-900', 'hover:bg-blue-900');
+}
