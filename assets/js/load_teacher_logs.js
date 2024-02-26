@@ -36,11 +36,11 @@ function displayLogsTable(logData) {
     $('#logsDataTable').DataTable({
         data: logData,
         columns: [
-            { data: 'log_id', title: 'Log ID' },
-            { data: 'serial_code', title: 'Serial Code' },
+            { data: 'qr_serial', title: 'Item QR Serial' },
+            { data: 'item_name', title: 'Item Name' },
             { data: 'action_type', title: 'Action Type' },
-            { data: 'num_items', title: 'No. of Items' },
             { data: 'log_date', title: 'Log Date' },
+            { data: 'due_date', title: 'Return Due' },
             {
                 // Custom column for actions
                 data: null,
@@ -108,7 +108,7 @@ fetch('assets/php/fetch_user_data.php')
                     //console.log('Last Name:', data.last_name);
 
                     // Display the last name in the session in the span with id 'teacher-name'
-                    document.getElementById('teacher-name').textContent = data.last_name;
+                    document.getElementById('teacher-name').textContent = data.full_name;
                 })
                 .catch(error => console.error('Error fetching user data:', error));
 

@@ -3,12 +3,12 @@
 include 'db_connect.php';
 
 // Check if serial_code is set in the POST request
-if (isset($_POST['serial_code'])) {
+if (isset($_POST['qr_serial'])) {
     // Sanitize the input to prevent SQL injection
-    $serialCode = mysqli_real_escape_string($conn, $_POST['serial_code']);
+    $serialCode = mysqli_real_escape_string($conn, $_POST['qr_serial']);
 
     // Query to fetch item data based on serial_code
-    $query = "SELECT serial_code, item_name, total_items, items_borrowed, borrowable_items FROM school_items WHERE serial_code = '$serialCode'";
+    $query = "SELECT * FROM school_items WHERE qr_serial = '$serialCode'";
     $result = mysqli_query($conn, $query);
 
     if ($result) {

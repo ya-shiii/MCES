@@ -100,26 +100,37 @@
                             <div class="p-5 text-black font-bold text-2xl">Borrow Item</div>
                             <form id="addItemForm" class="p-6" action="assets/php/borrow_item.php" method="POST">
                                 <div class="mb-4">
-                                    <label for="serial_code" class="block text-gray-700 text-sm font-medium mb-2">Serial
+                                    <label for="qr_serial" class="block text-gray-700 text-sm font-medium mb-2">Serial
                                         Code</label>
-                                    <input type="hidden" id="serial_code" name="serial_code"
+                                    <input type="hidden" id="qr_serial" name="qr_serial"
                                         class="border border-gray-300 py-2 px-5 rounded-full" required>
-                                    <input type="text" id="serial_code1" name="serial_code1"
+                                    <input type="text" id="qr_serial1" name="qr_serial1"
                                         class="border border-gray-300 py-2 px-5 rounded-full" required disabled>
                                 </div>
                                 <div class="mb-4">
                                     <label for="item_name" class="block text-gray-700 text-sm font-medium mb-2">Item
                                         Name</label>
-                                    <input type="text" id="item_name" name="item_name"
+                                    <input type="text" id="item_name1" name="item_name1"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required disabled>
+                                    <input type="hidden" id="item_name" name="item_name"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="item_description"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Description</label>
+                                    <input type="text" id="item_description" name="item_description"
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required disabled>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="borrow_items"
-                                        class="block text-gray-700 text-sm font-medium mb-2">Number of
-                                        Items</label>
-                                    <input type="number" id="borrow_items" name="borrow_items"
+                                    <label for="location"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Location</label>
+                                    <input type="text" id="location" name="location"
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
-                                    <input type="hidden" id="borrowable_items" name="borrowable_items"
+                                </div>
+                                <div class="mb-4">
+                                    <label for="return_due" class="block text-gray-700 text-sm font-medium mb-2">Return
+                                        Date</label>
+                                    <input type="datetime-local" id="return_due" name="return_due"
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                                 </div>
                                 <!-- Form buttons -->

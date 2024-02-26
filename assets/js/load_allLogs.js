@@ -36,11 +36,11 @@ function displayLogsTable(logData) {
     $('#logsDataTable').DataTable({
         data: logData,
         columns: [
-            { data: 'log_id', title: 'Log ID' },
-            { data: 'serial_code', title: 'Serial Code' },
+            { data: 'qr_serial', title: 'Item QR Serial' },
+            { data: 'item_name', title: 'Item Name' },
             { data: 'action_type', title: 'Action Type' },
-            { data: 'num_items', title: 'No. of Items' },
             { data: 'log_date', title: 'Log Date' },
+            { data: 'due_date', title: 'Return Due' },
             {
                 // Custom column for actions
                 data: null,

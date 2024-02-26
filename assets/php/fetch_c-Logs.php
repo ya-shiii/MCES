@@ -1,7 +1,7 @@
 <?php
 include 'db_connect.php';
 
-$query = "SELECT * FROM log_book WHERE `status` = 'pending' ORDER BY log_date DESC";
+$query = "SELECT * FROM log_book WHERE `status` = 'completed' AND action_type='return' ORDER BY log_date DESC";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {

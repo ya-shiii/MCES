@@ -17,32 +17,26 @@ $userId = $_SESSION['user_id'];
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get the values from the POST request
-    $serialCode = $_POST['serial_code'];
-    $borrowItems = $_POST['borrow_items'];
-    $availableItems = $_POST['borrowable_items'];
-
-    // Check if borrow_items is more than available_items
-    if ($borrowItems > $availableItems) {
-        echo 'Error: Number of items to borrow exceeds available items.';
-        echo "<script>alert('Number of items to borrow exceeds available items'); window.location.href='../../items-list.html';</script>";
-        exit();
-    }
+    $qr_serial = $_POST['qr_serial'];
+    $item_name = $_POST['item_name'];
+    $location = $_POST['location'];
+    $return_due = $_POST['return_due'];
 
     // Insert the borrow record into the log_book table
-    $insertLogQuery = "INSERT INTO log_book (user_id, serial_code, action_type, num_items) VALUES ('$userId', '$serialCode', 'borrow', $borrowItems)";
+    $insertLogQuery = "INSERT INTO log_book (user_id, qr_serial, item_name, due_date, action_type) VALUES ('$userId', '$qr_serial', '$item_name', '$return_due', 'borrow')";
     $insertLogResult = mysqli_query($conn, $insertLogQuery);
 
     if ($insertLogResult) {
         // Update the school_items table
-        $updateItemsQuery = "UPDATE school_items SET items_borrowed = items_borrowed + $borrowItems, borrowable_items = borrowable_items - $borrowItems WHERE serial_code = '$serialCode'";
+        $updateItemsQuery = "UPDATE school_items SET item_status = 'Borrowed', `location` = '$location' WHERE qr_serial = '$qr_serial'";
         $updateItemsResult = mysqli_query($conn, $updateItemsQuery);
 
         if ($updateItemsResult) {
             echo 'Borrow successful.';
-            echo "<script>alert('Application submitted. Please wait for administrator approval.'); window.location.href='../../items-list.html';</script>";
+            echo "<script>alert('Borrow application submitted. Please wait for administrator approval.'); window.location.href='../../items-list.html';</script>";
         } else {
             echo 'Error updating school_items table.';
-            echo "<script>alert('Error application to borrow'); window.location.href='../../items-list.html';</script>";
+            echo "<script>alert('Error in  borrow application.'); window.location.href='../../items-list.html';</script>";
         }
     } else {
         echo 'Error inserting record into log_book table.';

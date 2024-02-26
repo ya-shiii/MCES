@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "SELECT * FROM user_list WHERE username = '$username'";
         $result = mysqli_query($conn, $query);
 
+        $u_password = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+
         if (!$result) {
             die("Query failed: " . mysqli_error($conn));
         }
