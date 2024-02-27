@@ -45,68 +45,59 @@
                 <div class="p-0 flex w-full h-5/6">
                     <div class="w-1/4 m-0">
                         <div class="shadow-2xl bg-blue-100 p-5 rounded-lg">
-                            <a href="#">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
-                                        class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
-                                        <div class="flex justify-between items-center">
-                                            <div class="w-full z-20"></div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
-                                        class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
-                                        <div class="flex justify-between items-center">
-                                            <div class="w-full z-20"></div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="w-full mx-auto bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            <div>
+                                <div class="w-full mx-auto bg-blue-900 p-1 rounded-lg my-3" id="daysChartdiv">
+                                    <button onclick="daysChart()" id="daysChartbtn"
                                         class="w-full bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20"></div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">Past 7 Days</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
-                            <a href="#">
-                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
-                                    <button
+                            </div>
+                            <div>
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="weeksChartdiv">
+                                    <button onclick="weeksChart()" id="weeksChartbtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20"></div>
-                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                            <div class="w-full z-20">Past 6 Weeks</div>
                                         </div>
                                     </button>
                                 </div>
-                            </a>
+                            </div>
+                            <div>
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3"
+                                    id="monthChartdiv">
+                                    <button onclick="monthsChart()" id="monthChartbtn"
+                                        class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
+                                        <div class="flex justify-between items-center">
+                                            <div class="w-full z-20">Past 6 Months</div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="w-11/12 pl-40 text-center h-full p-5 bg-white bg-opacity-20">
-                        <div id="yearly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
+                        <div id="weekly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
+                            <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 7 Days</h1>
                             <div class="h-full w-full overflow-y-auto">
-                                <canvas id="myChart" width="400" height="200"></canvas>
+                                <canvas id="weekChart" width="500" height="200"></canvas>
+                            </div>
+                        </div>
+
+                        <div id="monthly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
+                            <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 6 Weeks</h1>
+                            <div class="h-full w-full overflow-y-auto">
+                                <canvas id="monthChart" width="500" height="200"></canvas>
                             </div>
                         </div>
 
                         <div id="yearly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
+                            <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 6 Months</h1>
                             <div class="h-full w-full overflow-y-auto">
-                                <!-- Items data table will be displayed here -->
-                            </div>
-                        </div>
-
-                        <div id="yearly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
-                            <div class="h-full w-full overflow-y-auto">
-                                
+                                <canvas id="yearChart" width="500" height="200"></canvas>
                             </div>
                         </div>
                     </div>
