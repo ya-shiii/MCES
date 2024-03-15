@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- DataTables JavaScript -->
@@ -31,6 +32,15 @@
                     <a href="log-book.html" class="px-4 hover:text-blue-300">Log Book</a>
                     <a href="analytics.html" class="px-4 hover:text-blue-300">Transactions</a>
                     <a href="user-management.html" class="px-4 text-blue-300">User Management</a>
+                    
+
+                    <div class="relative hover:cursor-pointer" id="notif-bell">
+                        <!-- Bell icon -->
+                        <i class="fa fa-bell text-gray-300 hover:text-blue-300 text-xl"></i>
+                        <!-- Red circle indicator for unread notifications -->
+                        <div id="notif-red" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></div>
+                    </div>
+                    
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
             </div>
@@ -428,6 +438,8 @@
         <script src="assets/js/load_users.js"></script>
         <!-- Load Dropdown Options -->
         <script src="assets/js/load_dropdown.js"></script>
+        <!-- For notifications -->
+        <script src="assets/js/notif-admin.js"></script>
 
 </body>
 

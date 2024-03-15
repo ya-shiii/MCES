@@ -1,0 +1,10 @@
+/* Styles for each notification */
+.notif {
+    background: linear-gradient(90deg, #4F7CAC, #74A5CE); /* Gradient background */
+    color: white; /* Text color */
+    padding: 20px; /* Padding */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Drop shadow */
+    text-align: center; /* Center align text */
+    margin-bottom: 10px; /* Margin between notifications */
+}

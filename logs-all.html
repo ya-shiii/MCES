@@ -7,8 +7,10 @@
     <title>MCES Supply Inventory</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css"> 
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- DataTables JavaScript -->
@@ -28,8 +30,23 @@
                     <a href="items-list.html" class="px-4 hover:text-blue-300">Borrow Item</a>
                     <a href="logs.html" class="px-4 text-blue-300">Log Book</a>
                     <a href="account.html" class="px-4 hover:text-blue-300">Account Management</a>
+                    
+
+                    <div class="relative hover:cursor-pointer" id="notif-bell">
+                        <!-- Bell icon -->
+                        <i class="fa fa-bell text-gray-300 hover:text-blue-300 text-xl"></i>
+                        <!-- Red circle indicator for unread notifications -->
+                        <div id="notif-red" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></div>
+                    </div>
+                    
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
+            </div>
+        </div>
+
+        <div class="z-50 fixed w-8/12 mx-auto h-fit inset-0 top-14 hidden" id="notif-pane">
+            <div class="notif-pane-content absolute inset-y-0 right-0 w-1/4 bg-slate-300 rounded-lg shadow-xl p-5 h-fit" id="notif-content">
+                <!-- AJAX request will populate this div with notification data -->
             </div>
         </div>
 
@@ -96,6 +113,8 @@
 
         <!-- Load Logs Table -->
         <script src="assets/js/load_allLogs.js"></script>
+        <!-- For notifications -->
+        <script src="assets/js/notif-user.js"></script>
 
 </body>
 

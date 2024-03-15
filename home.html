@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCES Supply Inventory</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Checks teacher authentication -->
     <script src="assets/js/teacher_checker.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]"
@@ -22,8 +25,23 @@
                     <a href="items-list.html" class="px-4 hover:text-blue-300">Borrow Item</a>
                     <a href="logs.html" class="px-4 hover:text-blue-300">Log Book</a>
                     <a href="account.html" class="px-4 hover:text-blue-300">Account Management</a>
+
+
+                    <div class="relative hover:cursor-pointer" id="notif-bell">
+                        <!-- Bell icon -->
+                        <i class="fa fa-bell text-gray-300 hover:text-blue-300 text-xl"></i>
+                        <!-- Red circle indicator for unread notifications -->
+                        <div id="notif-red" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></div>
+                    </div>
+
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
+            </div>
+        </div>
+        <div class="z-50 fixed w-8/12 mx-auto h-fit inset-0 top-14 hidden" id="notif-pane">
+            <div class="notif-pane-content absolute inset-y-0 right-0 w-1/4 bg-slate-300 rounded-lg shadow-xl p-5 h-fit"
+                id="notif-content">
+                <!-- AJAX request will populate this div with notification data -->
             </div>
         </div>
 
@@ -31,7 +49,7 @@
             <h1 class="text-8xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">DASHBOARD</h1>
             <div class="flex flex-column items-center justify-center mt-2">
                 <div class="shadow-lg bg-blue-100 p-0 flex w-full">
-                    <div class="w-1/2 m-0">
+                    <div class="w-1/2 m-0 bg-slate-300">
                         <img src="assets/img/image1.png" alt="Image" class="w-full h-full">
                     </div>
                     <div class="w-1/2 p-20 justify-center text-center">
@@ -73,21 +91,26 @@
             </div>
 
         </div>
+    </div>
 
-        <script>
-            // JavaScript code to fetch user id and last name asynchronously
-            fetch('assets/php/fetch_user_data.php')
-                .then(response => response.json())
-                .then(data => {
-                    //for debugging
-                    //console.log('User ID:', data.user_id);
-                    //console.log('Full Name:', data.full_name);
 
-                    // Display the last name in the session in the span with id 'teacher-name'
-                    document.getElementById('teacher-name').textContent = data.full_name;
-                })
-                .catch(error => console.error('Error fetching user data:', error));
-        </script>
+    <script>
+        // JavaScript code to fetch user id and last name asynchronously
+        fetch('assets/php/fetch_user_data.php')
+            .then(response => response.json())
+            .then(data => {
+                //for debugging
+                //console.log('User ID:', data.user_id);
+                //console.log('Full Name:', data.full_name);
+
+                // Display the last name in the session in the span with id 'teacher-name'
+                document.getElementById('teacher-name').textContent = data.full_name;
+            })
+            .catch(error => console.error('Error fetching user data:', error));
+    </script>
+
+    <!-- For notifications -->
+    <script src="assets/js/notif-user.js"></script>
 </body>
 
 </html>

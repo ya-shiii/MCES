@@ -6,12 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCES Supply Inventory</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
     <!-- Checks admin authentication -->
     <script src="assets/js/admin_checker.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
-<body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]" style="background-image: url('assets/img/bg.PNG');">
-    <div class="relative h-auto">
+<body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]"
+    style="background-image: url('assets/img/bg.PNG');">
+    <div class="relative h-auto flex-column">
         <!-- Navbar -->
         <div class="w-full bg-gradient-to-t from-indigo-900 to-blue-700 text-white py-4">
             <div class="w-9/12 mx-auto flex justify-between items-center uppercase">
@@ -22,18 +27,90 @@
                     <a href="log-book.html" class="px-4 hover:text-blue-300">Log Book</a>
                     <a href="analytics.html" class="px-4 hover:text-blue-300">Transactions</a>
                     <a href="user-management.html" class="px-4 hover:text-blue-300">User Management</a>
+
+                    <div class="relative hover:cursor-pointer" id="notif-bell">
+                        <!-- Bell icon -->
+                        <i class="fa fa-bell text-gray-300 hover:text-blue-300 text-xl"></i>
+                        <!-- Red circle indicator for unread notifications -->
+                        <div id="notif-red" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></div>
+                    </div>
+
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
             </div>
         </div>
-        
+        <div class="z-50 fixed w-8/12 mx-auto h-fit inset-0 top-14 hidden" id="notif-pane">
+            <div class="notif-pane-content absolute inset-y-0 right-0 w-1/4 bg-slate-300 rounded-lg shadow-xl p-5 h-fit"
+                id="notif-content">
+                <!-- AJAX request will populate this div with notification data -->
+            </div>
+        </div>
         <div class="w-3/5 mx-auto">
             <h1 class="text-8xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">DASHBOARD</h1>
             <div class="flex flex-column items-center justify-center mt-2">
                 <div class="shadow-lg bg-blue-100 p-0 flex w-full">
-                    <div class="w-1/2 m-0">
-                        <img src="assets/img/image1.png" alt="Image" class="w-full h-full">
+                    <div class="w-1/2 m-0 bg-slate-300 p-6 rounded-lg shadow-lg">
+                        <h2 class="text-xl font-bold mb-4 text-blue-900">Assets Summary</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- Total Assets -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Total Assets</h3>
+                                    <p id="total-assets" class="text-4xl font-bold text-blue-400 text-center">0</p>
+                                </div>
+                            </div>
+                            <!-- Available Assets -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Available Assets</h3>
+                                    <p id="available-assets" class="text-4xl font-bold text-green-400 text-center">0</p>
+                                </div>
+                            </div>
+                            <!-- Disposed Assets -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Disposed Assets</h3>
+                                    <p id="disposed-assets" class="text-4xl font-bold text-red-400 text-center">0</p>
+                                </div>
+                            </div>
+                            <!-- Borrowed Assets -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Borrowed Assets</h3>
+                                    <p id="borrowed-assets" class="text-4xl font-bold text-yellow-400 text-center">0</p>
+                                </div>
+                            </div>
+                            <!-- Pending Borrow Requests -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Pending Borrow Requests</h3>
+                                    <p id="pending-borrow-requests" class="text-4xl font-bold text-orange-400 text-center">0</p>
+                                </div>
+                            </div>
+                            <!-- Pending Return Requests -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Pending Return Requests</h3>
+                                    <p id="pending-return-requests" class="text-4xl font-bold text-purple-400 text-center">0</p>
+                                </div>
+                            </div>
+                            <!-- Completed Transactions -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Completed Transactions</h3>
+                                    <p id="completed-transactions" class="text-4xl font-bold text-pink-400 text-center">0</p>
+                                </div>
+                            </div>
+                            <!-- Inventory Value -->
+                            <div class="flex items-center justify-center bg-gray-800 p-4 rounded-lg shadow-md">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white mb-2">Inventory Value</h3>
+                                    <p class="text-4xl font-bold text-teal-400 text-center">₱ <span id="inventory-value">0</span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="w-1/2 p-20 justify-center text-center">
                         <a href="tracking.html">
                             <div class="w-11/12 mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
@@ -84,8 +161,12 @@
             </div>
 
         </div>
+    </div>
 
-        
+    <!-- For notifications -->
+    <script src="assets/js/notif-admin.js"></script>
+    <!-- For summary -->
+    <script src="assets/js/admin-dashboard.js"></script>
 </body>
 
 </html>
