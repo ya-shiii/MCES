@@ -162,8 +162,8 @@ function displayAssetsTable(itemData) {
     $('#assetsDataTable').DataTable({
         data: itemData,
         columns: [
-            { data: 'name', title: 'Asset Name' },
-            { data: 'type', title: 'Asset Type' },
+            { data: 'name', title: 'Item Name' },
+            { data: 'type', title: 'Item Type' },
             { data: 'mode_of_procurement', title: 'Mode of Procurement' },
             { data: 'number_of_items', title: 'No. of Items' },
             { data: 'price_per_item', title: 'Price per Item' },
@@ -212,8 +212,8 @@ function displayTypes(itemData) {
     $('#assetsTypesTable').DataTable({
         data: itemData,
         columns: [
-            { data: 'name', title: 'Asset Name' },
-            { data: 'description', title: 'Asset Description' },
+            { data: 'name', title: 'Item Name' },
+            { data: 'description', title: 'Item Description' },
             { data: 'created_at', title: 'Date Created' },
             { data: 'updated_at', title: 'Date Updated' },
             {
@@ -268,8 +268,8 @@ function displayDisposedTable(itemData) {
     $('#disposedAssetsTable').DataTable({
         data: itemData,
         columns: [
-            { data: 'item_name', title: 'Asset Name' },
-            { data: 'type', title: 'Asset Type' },
+            { data: 'item_name', title: 'Item Name' },
+            { data: 'type', title: 'Item Type' },
             { data: 'description', title: 'Description' },
             { data: 'serial_number', title: 'Serial Number' },
             { data: 'manufacturer', title: 'Manufacturer' },

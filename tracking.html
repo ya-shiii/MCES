@@ -33,7 +33,7 @@
                 <div class="text-2xl font-black ">Admin</div>
                 <div class="flex space-x-6">
                     <a href="dashboard.html" class="px-4 hover:text-blue-300">Dashboard</a>
-                    <a href="tracking.html" class="px-4 text-blue-300">School Assets</a>
+                    <a href="tracking.html" class="px-4 text-blue-300">School Items</a>
                     <a href="log-book.html" class="px-4 hover:text-blue-300">Log Book</a>
                     <a href="analytics.html" class="px-4 hover:text-blue-300">Transactions</a>
                     <a href="user-management.html" class="px-4 hover:text-blue-300">User Management</a>
@@ -52,7 +52,7 @@
         </div>
 
         <div class="w-11/12 mx-auto">
-            <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">SCHOOL ASSETS</h1>
+            <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">SCHOOL ITEMS</h1>
             <div class="flex flex-column mt-2">
                 <div class="p-0 flex w-full h-5/6">
                     <div class="w-1/5 m-0">
@@ -62,7 +62,7 @@
                                     <button onclick="showAssetTable()" id="assetTablebtn"
                                         class="w-full bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">ASSETS LIST</div>
+                                            <div class="w-full z-20">ITEMS LIST</div>
                                         </div>
                                     </button>
                                 </div>
@@ -73,7 +73,7 @@
                                     <button onclick="showHistoryTable()" id="historyTablebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">ASSET HISTORY</div>
+                                            <div class="w-full z-20">ITEM HISTORY</div>
                                         </div>
                                     </button>
                                 </div>
@@ -84,7 +84,7 @@
                                     <button onclick="showTypesTable()" id="assetTypebtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">ASSET TYPES</div>
+                                            <div class="w-full z-20">ITEM TYPES</div>
                                         </div>
                                     </button>
                                 </div>
@@ -95,7 +95,7 @@
                                     <button onclick="showDisposedTable()" id="disposedBtn"
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">DISPOSED ASSETS</div>
+                                            <div class="w-full z-20">DISPOSED ITEMS</div>
                                         </div>
                                     </button>
                                 </div>
@@ -176,11 +176,11 @@
                                 <!-- Buttons for New User, New assetType, and New Department -->
                                 <button onclick="showAssetForm()"
                                     class="mr-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
-                                    New Asset
+                                    New Item
                                 </button>
                                 <button onclick="showAssetTypeForm()"
                                     class="mr-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
-                                    New Asset Type
+                                    New Item Type
                                 </button>
                             </div>
                         </div>
@@ -306,7 +306,7 @@
                     <div class="fixed inset-0 flex items-center justify-center">
                         <div
                             class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
-                            <div class="p-5 text-black font-bold text-2xl">New Asset Type</div>
+                            <div class="p-5 text-black font-bold text-2xl">New Item Type</div>
                             <form id="addassetTypeForm" class="p-6" action="assets/php/add_assetType.php" method="POST">
                                 <div class="mb-4">
                                     <label for="assetTypeName"
