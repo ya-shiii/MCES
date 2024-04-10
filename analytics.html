@@ -19,6 +19,14 @@
     <script src="assets/js/admin_checker.js"></script>
     <!-- chart js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- saving html to pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+
+
+
 
 </head>
 
@@ -35,7 +43,7 @@
                     <a href="log-book.html" class="px-4 hover:text-blue-300">Log Book</a>
                     <a href="analytics.html" class="px-4 text-blue-300">Transactions</a>
                     <a href="user-management.html" class="px-4 hover:text-blue-300">User Management</a>
-                    
+
 
                     <div class="relative hover:cursor-pointer" id="notif-bell">
                         <!-- Bell icon -->
@@ -43,7 +51,7 @@
                         <!-- Red circle indicator for unread notifications -->
                         <div id="notif-red" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></div>
                     </div>
-                    
+
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
             </div>
@@ -88,8 +96,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="mt-20">
+                            <div class="w-full mx-auto bg-blue-400 p-1 rounded-full my-3">
+                                <button onclick="savePDF()"
+                                    class="w-full bg-blue-400 text-white border-4 border-opacity-0 rounded-full py-3 text-2xl relative">
+                                    <div class="flex justify-between items-center">
+                                        <div class="w-full z-20">Save as image</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="w-11/12 pl-40 text-center h-full p-5 bg-white bg-opacity-20">
+                    <div class="w-11/12 pl-40 text-center h-full p-5 bg-white bg-opacity-20" id="screenshotdiv">
                         <div id="weekly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
                             <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 7 Days</h1>
                             <div class="h-full w-full overflow-y-auto">
@@ -98,14 +117,16 @@
                         </div>
 
                         <div id="monthly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
-                            <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 6 Weeks</h1>
+                            <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 6 Weeks
+                            </h1>
                             <div class="h-full w-full overflow-y-auto">
                                 <canvas id="monthChart" width="500" height="200"></canvas>
                             </div>
                         </div>
 
                         <div id="yearly-chart" class="bg-blue-200 p-5 w-full h-full my-2">
-                            <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 6 Months</h1>
+                            <h1 class="text-3xl font-black text-indigo-900 text-left mb-5 stroke-white">Last 6 Months
+                            </h1>
                             <div class="h-full w-full overflow-y-auto">
                                 <canvas id="yearChart" width="500" height="200"></canvas>
                             </div>
@@ -117,10 +138,12 @@
 
         </div>
 
-        <!-- Load Analysis Table -->
-        <script src="assets/js/load_analysis.js"></script>
+
+
         <!-- For notifications -->
         <script src="assets/js/notif-admin.js"></script>
+        <!-- Load Analysis Table -->
+        <script src="assets/js/load_analysis.js"></script>
 </body>
 
 </html>

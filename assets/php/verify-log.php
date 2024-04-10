@@ -9,18 +9,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $log_id = mysqli_real_escape_string($conn, $_POST['log_id']);
 
     // Fetch action_type based on log_id
-    $fetchQuery = "SELECT action_type FROM log_book WHERE log_id = '$log_id'";
+    $fetchQuery = "SELECT `action` FROM request_log WHERE log_id = '$log_id'";
     $fetchResult = mysqli_query($conn, $fetchQuery);
 
     if ($fetchResult) {
         $row = mysqli_fetch_assoc($fetchResult);
-        $action_type = $row['action_type'];
+        $action_type = $row['action'];
 
         // Determine the status based on the action_type
         $status = ($action_type === 'return') ? 'completed' : 'approved';
 
-        // Perform the update in the database
-        $updateQuery = "UPDATE log_book SET status = '$status' WHERE log_id = '$log_id'";
+        // Add the current date
+        $current_date = date('Y-m-d H:i:s');
+
+        // Perform the update in the database including the current date
+        $updateQuery = "UPDATE request_log SET `status` = '$status', `date_approved` = '$current_date' WHERE log_id = '$log_id'";
         $updateResult = mysqli_query($conn, $updateQuery);
 
         if ($updateResult) {

@@ -290,6 +290,53 @@ function getLast6Months() {
 }
 
 daysChart();
+
+
+//saving pdf
+function savePDF() {
+    // Get the current date
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    var yyyy = today.getFullYear();
+
+    var filename = 'MCES_Inventory_System_' + yyyy + '-' + mm + '-' + dd + '.png';
+
+    // Capture only the specific div with id "screenshotdiv"
+    html2canvas(document.getElementById('screenshotdiv')).then(function(canvas) {
+        var imageData = canvas.toDataURL('image/png');
+        var link = document.createElement('a');
+        link.href = imageData;
+        link.download = filename; // Set the filename here
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+}
+
+
+
+// Function to get current date in the format YYYY-MM-DD
+function getCurrentDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    let month = now.getMonth() + 1;
+    let day = now.getDate();
+
+    if (month < 10) {
+        month = '0' + month;
+    }
+    if (day < 10) {
+        day = '0' + day;
+    }
+
+    return year + '-' + month + '-' + day;
+}
+
+
+
+
+
 // interactive buttons
 function daysChart() {
     // Show the pending table

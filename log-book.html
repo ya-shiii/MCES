@@ -32,7 +32,7 @@
                     <a href="log-book.html" class="px-4 text-blue-300">Log Book</a>
                     <a href="analytics.html" class="px-4 hover:text-blue-300">Transactions</a>
                     <a href="user-management.html" class="px-4 hover:text-blue-300">User Management</a>
-                    
+
 
                     <div class="relative hover:cursor-pointer" id="notif-bell">
                         <!-- Bell icon -->
@@ -40,7 +40,7 @@
                         <!-- Red circle indicator for unread notifications -->
                         <div id="notif-red" class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full"></div>
                     </div>
-                    
+
                     <a href="assets/php/logout.php" class="px-4 hover:text-blue-300">Logout</a>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                                     <button onclick="showPending()" id="pendingTablebtn"
                                         class="w-full bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                         <div class="flex justify-between items-center">
-                                            <div class="w-full z-20">PENDING LIST</div>
+                                            <div class="w-full z-20">REQUESTS LIST</div>
                                         </div>
                                     </button>
                                 </div>
@@ -108,12 +108,79 @@
                 </div>
             </div>
 
+            <!-- QR Modal -->
+            <div id="scanItemsModal" class="modal hidden fixed inset-0 overflow-y-auto">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <!-- Background overlay -->
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+
+                    <!-- Modal content -->
+                    <div id="scanItems" class="relative inset-0 flex items-center justify-center mt-36">
+                        <div
+                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
+                            <div class="p-5 text-black font-bold text-2xl">Scan Items</div>
+                            <div class="p-6">
+                                <form id="borrowForm">
+                                    <div class="mb-4">
+                                        <label for="log_id" class="block text-lg">Log ID:</label>
+                                        <input type="text" id="log_id" name="log_id" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="borrowerName" class="block text-lg">Borrower:</label>
+                                        <input type="text" id="borrowerName" name="borrowerName" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="borrowerId" class="block text-lg">Borrower ID:</label>
+                                        <input type="text" id="borrowerId" name="borrowerId" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="item_name" class="block text-lg">Item:</label>
+                                        <input type="text" id="item_name" name="item_name" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="item_type" class="block text-lg">Type:</label>
+                                        <input type="text" id="item_type" name="item_type" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="item_location" class="block text-lg">Location:</label>
+                                        <input type="text" id="item_location" name="item_location" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="return_date" class="block text-lg">Return Date:</label>
+                                        <input type="datetime-local" id="return_date" name="return_date" class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    </div>
+                            
+                                    <!-- Dynamically generated input elements -->
+                                    <div id="scanContainer">
+                                        <div id="inputContainer"></div>
+                                    </div>
+                            
+                                    <div class="mt-4 flex justify-end">
+                                        <button type="button" onclick="cancelSearchQR()"
+                                            class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Cancel</button>
+                                        <button type="submit"
+                                            class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                                            disabled id="sendButton">Scan for QR</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
 
         <!-- Load Logs Table -->
         <script src="assets/js/load_logs.js"></script>
         <!-- For notifications -->
         <script src="assets/js/notif-admin.js"></script>
+        <!-- for reading QR -->
+        <script src="https://cdn.jsdelivr.net/npm/jsqr"></script>
 </body>
 
 </html>

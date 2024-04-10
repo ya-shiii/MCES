@@ -9,7 +9,7 @@ $(document).ready(function () {
                 // Parse the JSON response
                 try {
                     var itemData = JSON.parse(xhr.responseText);
-                    console.log('JSON response from fetch_items.php:', itemData);
+                    //console.log('JSON response from fetch_items.php:', itemData);
 
                     // Display the items table using DataTable
                     displayItemsTable(itemData);
@@ -136,7 +136,7 @@ $(document).ready(function () {
                 // Parse the JSON response
                 try {
                     var itemData = JSON.parse(xhr.responseText);
-                    console.log('JSON response from fetch_assets.php:', itemData);
+                    //console.log('JSON response from fetch_assets.php:', itemData);
 
                     // Display the items table using DataTable
                     displayAssetsTable(itemData);
@@ -186,7 +186,7 @@ $(document).ready(function () {
                 // Parse the JSON response
                 try {
                     var itemData = JSON.parse(xhr.responseText);
-                    console.log('JSON response from fetch_assetTypes.php:', itemData);
+                    //console.log('JSON response from fetch_assetTypes.php:', itemData);
 
                     // Display the items table using DataTable
                     displayTypes(itemData);
@@ -241,7 +241,7 @@ $(document).ready(function () {
                 // Parse the JSON response
                 try {
                     var itemData = JSON.parse(xhr.responseText);
-                    console.log('JSON response from fetch_disposed.php:', itemData);
+                    //console.log('JSON response from fetch_disposed.php:', itemData);
 
                     // Display the items table using DataTable
                     displayDisposedTable(itemData);
@@ -428,11 +428,13 @@ function editItem(qr_serial) {
         data: { qr_serial: qr_serial },
         dataType: 'json',
         success: function (response) {
+            // console.log('JSON response from fetch_items.php:', response);
+            var itemType = response.type;
             // Populate the form fields with the retrieved item details
             $('#qr_serial_hidden').val(qr_serial); // Set the QR serial in a hidden field for form submission
             $('#edit_qr_serial').val(qr_serial);
             $('#editItem_name').val(response.item_name);
-            $('#edit_item_type').val(response.type);
+            $('#edit_item_type').append('<option value="' + itemType + '" selected>' + itemType + '</option>');
             $('#edit_mode_of_procurement').val(response.mode_of_procurement);
             $('#edit_warranty_expiration').val(response.warranty_expiry_date);
             $('#edit_serial_number').val(response.serial_number);

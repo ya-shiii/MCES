@@ -16,6 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $warrantyExpiryDate = $_POST['warranty_expiry_date'];
     $manufacturer = mysqli_real_escape_string($conn, $_POST['manufacturer']);
     $lifespan = $_POST['lifespan'];
+    // Set the time zone to Asia/Manila
+    date_default_timezone_set('Asia/Manila');
     $current_time = date('Y-m-d H:i:s'); // Get the current timestamp
     $location = "School"; // Assuming location is fixed as "School" for all entries
 
@@ -43,6 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Execute the query
             mysqli_query($conn, $sql2);
         }
+
+        $sql3 = "INSERT INTO stock_items (item_name, item_type, available_items, location, date_added) VALUES ('$itemName', '$type', $totalItems, '$location', '$current_time')";
+        mysqli_query($conn, $sql3);
 
         // Set success message if all insertions are successful
         $response = $qrSerials;

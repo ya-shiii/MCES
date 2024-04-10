@@ -10,21 +10,21 @@ $row = $result->fetch_assoc();
 $totalAssets = $row['total_assets'];
 
 // Fetch available assets from school_items
-$stmt = $conn->prepare("SELECT COUNT(*) AS available_assets FROM school_items WHERE item_status = 'In Stock'");
+$stmt = $conn->prepare("SELECT SUM(available_items) AS available_assets FROM stock_items");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $availableAssets = $row['available_assets'];
 
 // Fetch disposed assets from school_items
-$stmt = $conn->prepare("SELECT COUNT(*) AS disposed_assets FROM school_items WHERE item_status = 'Disposed'");
+$stmt = $conn->prepare("SELECT SUM(disposed_items) AS disposed_assets FROM stock_items");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $disposedAssets = $row['disposed_assets'];
 
 // Fetch borrowed assets from log_book
-$stmt = $conn->prepare("SELECT COUNT(*) AS borrowed_assets FROM school_items WHERE item_status = 'Borrowed'");
+$stmt = $conn->prepare("SELECT SUM(borrowed_items) AS borrowed_assets FROM stock_items");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
