@@ -17,6 +17,8 @@
         src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <!-- Checks admin authentication -->
     <script src="assets/js/admin_checker.js"></script>
+    <!-- For scanning QR -->
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 </head>
 
 <body class="bg-fixed bg-cover bg-center bg-[url('assets/img/bg.PNG')]"
@@ -117,58 +119,129 @@
                     </div>
 
                     <!-- Modal content -->
-                    <div id="scanItems" class="relative inset-0 flex items-center justify-center mt-36">
+                    <div id="scanItems" class="absolute inset-0 flex items-center justify-center">
                         <div
                             class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
                             <div class="p-5 text-black font-bold text-2xl">Scan Items</div>
                             <div class="p-6">
-                                <form id="borrowForm">
-                                    <div class="mb-4">
-                                        <label for="log_id" class="block text-lg">Log ID:</label>
-                                        <input type="text" id="log_id" name="log_id" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="borrowerName" class="block text-lg">Borrower:</label>
-                                        <input type="text" id="borrowerName" name="borrowerName" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="borrowerId" class="block text-lg">Borrower ID:</label>
-                                        <input type="text" id="borrowerId" name="borrowerId" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="item_name" class="block text-lg">Item:</label>
-                                        <input type="text" id="item_name" name="item_name" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="item_type" class="block text-lg">Type:</label>
-                                        <input type="text" id="item_type" name="item_type" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="item_location" class="block text-lg">Location:</label>
-                                        <input type="text" id="item_location" name="item_location" class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="return_date" class="block text-lg">Return Date:</label>
-                                        <input type="datetime-local" id="return_date" name="return_date" class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
-                                    </div>
-                            
-                                    <!-- Dynamically generated input elements -->
-                                    <div id="scanContainer">
-                                        <div id="inputContainer"></div>
-                                    </div>
-                            
-                                    <div class="mt-4 flex justify-end">
-                                        <button type="button" onclick="cancelSearchQR()"
-                                            class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Cancel</button>
-                                        <button type="submit"
-                                            class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-                                            disabled id="sendButton">Scan for QR</button>
-                                    </div>
-                                </form>
+                                <div id="scannerVideoContainer" class="mt-4"></div>
+                                <div class="mt-4 flex justify-end">
+                                    <button type="button" onclick="cancelSearchQR()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Cancel</button>
+                                    <button type="button" onclick="scanForQR()"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                                        disabled id="sendButton">Scan for QR</button>
+                                </div>
                             </div>
-                            
                         </div>
                     </div>
+
+
+                </div>
+
+            </div>
+
+            <!-- Borrow Modal -->
+            <div id="borrowItemsModal" class="modal fixed inset-0 overflow-y-auto">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <!-- Background overlay -->
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+
+                    <!-- Modal content -->
+                    <div id="borrowItems" class="relative inset-0 flex items-center justify-center my-20">
+                        <div
+                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
+                            <div class="p-5 text-black font-bold text-2xl">Borrow Item</div>
+                            <form id="borrowItemForm" class="p-6" action="assets/php/borrow_itemQR.php" method="POST">
+                                <div class="mb-4 hidden">
+                                    <input type="text" id="log_id" name="log_id"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="borrower_name"
+                                        class="text-gray-700 text-sm font-medium mb-2">Borrower</label>
+                                    <input type="text" id="borrower_name" name="borrower_name"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="location"
+                                        class="text-gray-700 text-sm font-medium mb-2">Location</label>
+                                    <input type="text" id="location" name="location"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="return_date" class="block text-gray-700 text-sm font-medium mb-2">Return
+                                        Date</label>
+                                    <input type="date" id="return_date" name="return_date"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="qr_serial" class="text-gray-700 text-sm font-medium mb-2">QR
+                                        Serial</label>
+                                    <input type="text" id="qr_serial" name="qr_serial"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="Item_name" class="block text-gray-700 text-sm font-medium mb-2">Item
+                                        Name</label>
+                                    <input type="text" id="Item_name" name="Item_name"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="item_type" class="block text-gray-700 text-sm font-medium mb-2">Item
+                                        Type</label>
+                                    <input type="text" id="item_type" name="item_type"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="mode_of_procurement"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Mode of
+                                        Procurement</label>
+                                    <input type="text" id="mode_of_procurement" name="mode_of_procurement"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_warranty_expiration"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Warranty
+                                        Expiration</label>
+                                    <input type="date" id="edit_warranty_expiration" name="edit_warranty_expiration"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_serial_number"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Serial Number</label>
+                                    <input type="text" id="edit_serial_number" name="edit_serial_number"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_manufacturer"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Manufacturer</label>
+                                    <input type="text" id="edit_manufacturer" name="edit_manufacturer"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="edit_lifespan"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Lifespan (Yrs)</label>
+                                    <input type="number" id="edit_lifespan" name="edit_lifespan"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <!-- Form buttons -->
+                                <div class="mt-4 flex justify-end">
+                                    <button type="button" onclick="cancelBorrowItem()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
 
                 </div>
 

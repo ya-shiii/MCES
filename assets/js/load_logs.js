@@ -261,7 +261,54 @@ function showComplete() {
     document.getElementById('completeTablebtn').classList.remove('bg-sky-900', 'hover:bg-blue-900');
 }
 
+// Attach an event listener to the form submission
+$('#borrowForm').submit(function(event) {
+    // Prevent the default form submission
+    event.preventDefault();
+    // Call the function to send QR code data
+});
 
+function cancelSearchQR() {
+    // Hide the addUser modal
+    document.getElementById('scanItemsModal').classList.add('hidden');
+}
+
+// Function to start Instascan QR code scanning
+function startInstascan(callback) {
+    // Create a new Instascan scanner instance
+    let scanner = new Instascan.Scanner({ video: document.createElement('video') });
+
+    // Get the video container element
+    let videoContainer = document.getElementById('scannerVideoContainer');
+
+    // Add the video element to the container
+    videoContainer.appendChild(scanner.video);
+
+    // Add event listener for when a QR code is scanned
+    scanner.addListener('scan', function (content) {
+        // Handle the scanned QR code content
+        console.log('Scanned QR code:', content);
+
+        // Call the callback function with the scanned QR code value
+        callback(content);
+
+        // Stop the scanner
+        scanner.stop();
+    });
+
+    // Start the scanner
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]); // Use the first available camera
+        } else {
+            console.error('No cameras found.');
+        }
+    }).catch(function (error) {
+        console.error('Error accessing cameras:', error);
+    });
+}
+
+// Function to initiate QR code scanning
 function scanQR(logId) {
     // Fetch the row from the request_log table using AJAX
     $.ajax({
@@ -273,58 +320,24 @@ function scanQR(logId) {
             let data = JSON.parse(response);
 
             // Populate borrower name, ID, item count, and item location
-            let log_id = logId;
-            let item_name = data.item_name;
-            let item_type = data.item_type;
             let borrowerName = data.borrower_name;
             let borrowerId = data.borrower_id;
-            let itemCount = data.item_count;
             let itemLocation = data.location;
 
-            // Populate the form with the fetched data
-            $('#log_id').val(log_id);
-            $('#item_name').val(item_name);
-            $('#item_type').val(item_type);
-            $('#borrowerName').val(borrowerName);
+            // Update form fields
+            $('#borrower_name').val(borrowerName);
             $('#borrowerId').val(borrowerId);
-            $('#item_location').val(itemLocation);
-
-            // Clear previous input elements
-            $('#inputContainer').empty();
-
-            // Dynamically generate input elements based on the number of items
-            for (let i = 1; i <= itemCount; i++) {
-                // Create a new input element for uploading QR code images
-                let input = $('<input/>', {
-                    type: 'file',
-                    id: 'imageInput' + i,
-                    name: 'imageInput' + i,
-                    accept: 'image/*',
-                    class: 'w-full border border-gray-300 py-2 px-5 rounded-lg mb-1 mt-4',
-                    required: true
-                });
-
-                // Create a new div for displaying the QR status
-                let qrStatus = $('<div/>', {
-                    id: 'qrStatus' + i,
-                    class: 'text-sm font-bold hidden'
-                });
-
-                // Create a new div for displaying the QR code
-                let qrCodeDisplay = $('<div/>', {
-                    id: 'qrCode' + i,
-                    class: 'text-xs font-bold hidden'
-                });
-
-                // Append the input element, QR status div, and QR code div to the container
-                $('#inputContainer').append(input, qrStatus, qrCodeDisplay);
-            }
+            $('#location').val(itemLocation);
+            $('#return_date').val(""); // Clear the return date field
 
             // Show the scanItems modal
             $('#scanItemsModal').removeClass('hidden');
 
-            // Call scanForQR function to start scanning for QR codes
-            scanForQR();
+            // Start Instascan QR code scanning and pass a callback function
+            startInstascan(function (scannedQR) {
+                // Handle the scanned QR code value
+                borrowItem(scannedQR);
+            });
         },
         error: function (xhr, status, error) {
             // Handle errors
@@ -333,158 +346,38 @@ function scanQR(logId) {
     });
 }
 
+// Function to open borrow item modal and fill the form fields
+function borrowItem(scannedQR) {
+    $.ajax({
+        type: 'POST',
+        url: 'assets/php/fetch_item-edit.php', // Adjust the URL to the endpoint that fetches item details
+        data: { scannedQR: scannedQR },
+        dataType: 'json',
+        success: function (response) {
+            // Populate the form fields with the retrieved item details
+            $('#qr_serial').val(scannedQR);
+            $('#Item_name').val(response.item_name);
+            $('#item_type').val(response.type);
+            $('#mode_of_procurement').val(response.mode_of_procurement);
+            $('#edit_warranty_expiration').val(response.warranty_expiry_date);
+            $('#edit_serial_number').val(response.serial_number);
+            $('#edit_manufacturer').val(response.manufacturer);
+            $('#edit_lifespan').val(response.lifespan);
 
-
-function scanForQR() {
-    // Iterate over each input field
-    $('[id^="imageInput"]').each(function (index) {
-        let inputFile = this;
-        let qrStatus = document.getElementById('qrStatus' + (index + 1));
-        let qrCodeDisplay = document.getElementById('qrCode' + (index + 1));
-        let sendButton = document.getElementById('sendButton');
-
-        // Add event listener for each input field
-        inputFile.addEventListener('change', function () {
-            // Check if a file has been selected
-            if (inputFile.files.length > 0) {
-                let file = inputFile.files[0];
-                let reader = new FileReader();
-
-                // Read the contents of the file
-                reader.onload = function (e) {
-                    let img = new Image();
-                    img.onload = function () {
-                        // Create a canvas element to work with jsQR
-                        let canvas = document.createElement('canvas');
-                        let context = canvas.getContext('2d');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-                        // Get the image data from the canvas
-                        let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-
-                        // Use jsQR to decode the QR code from the image
-                        let code = jsQR(imageData.data, imageData.width, imageData.height);
-                        if (code) {
-                            qrStatus.textContent = 'QR Code Found';
-                            qrStatus.classList.remove('text-red-500', 'text-yellow-500');
-                            qrStatus.classList.add('text-green-500');
-
-                            // Display the QR code
-                            qrCodeDisplay.textContent = 'QR Code: ' + code.data;
-                            qrCodeDisplay.classList.remove('hidden');
-                            // Enable the send button
-                            sendButton.disabled = false;
-                        } else {
-                            // No QR code found
-                            qrStatus.textContent = 'NO QR FOUND';
-                            qrStatus.classList.remove('text-green-500', 'text-yellow-500');
-                            qrStatus.classList.add('text-red-500');
-
-                            // Hide the QR code display
-                            qrCodeDisplay.textContent = '';
-                            qrCodeDisplay.classList.add('hidden');
-
-                            // Disable the send button
-                            sendButton.disabled = true;
-                        }
-                        qrStatus.classList.remove('hidden');
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                // No file selected
-                qrStatus.textContent = 'NO QR FOUND';
-                qrStatus.classList.remove('text-green-500', 'text-yellow-500');
-                qrStatus.classList.add('text-red-500');
-
-                // Hide the QR code display
-                qrCodeDisplay.textContent = '';
-                qrCodeDisplay.classList.add('hidden');
-
-                // Disable the send button
-                sendButton.disabled = true;
-
-                qrStatus.classList.remove('hidden');
-            }
-        });
-    });
-}
-
-// Function to send QR code data to a PHP file
-function sendQRCodeData() {
-    // Get the return date value
-    let returnDate = $('#return_date').val();
-    // Check if the return date is filled up
-    if (returnDate === "") {
-        // Display an alert or error message indicating that the return date is required
-        alert('Please select a return date.');
-        return; // Exit the function early if the return date is not filled up
-    }
-
-    // Create a new XMLHttpRequest object
-    var xhr = new XMLHttpRequest();
-
-    // Define the request parameters
-    var url = 'assets/php/borrow_items_qr.php';
-    var method = 'POST';
-    var jsonData = JSON.stringify({
-        log_id: $('#log_id').val(),
-        qr_data: qrCodeData,
-        item_name: $('#item_name').val(),
-        item_type: $('#item_type').val(),
-        return_date: returnDate,
-        borrower_name: $('#borrowerName').val(),
-        borrower_id: $('#borrowerId').val(),
-        location: $('#item_location').val()
-    });
-
-    // Log the JSON data to console
-    console.log('Data to be sent:', jsonData);
-
-    // Configure the request
-    xhr.open(method, url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    // Set up event listeners
-    xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 300) {
-            // Success
-            var response = JSON.parse(xhr.responseText);
-            console.log('Data sent successfully');
-            if (response.success) {
-                console.log('Success:', response.message);
-            } else {
-                console.error('Error:', response.error);
-            }
-        } else {
-            // Error
-            console.error('Error sending data:', xhr.statusText);
+            // Show the borrow item modal and hide the scanQR modal
+            $('#scanItemsModal').addClass('hidden');
+            $('#borrowItemModal').removeClass('hidden');
+        },
+        error: function (error) {
+            console.error('Error fetching item details:', error);
+            // Display error message to the user
+            alert('Error fetching item details. Please try again.');
         }
-    };
-
-    xhr.onerror = function () {
-        // Network error
-        console.error('Network error occurred');
-    };
-
-    // Send the request with the JSON data
-    xhr.send(jsonData);
+    });
 }
 
-// Attach an event listener to the form submission
-$('#borrowForm').submit(function(event) {
-    // Prevent the default form submission
-    event.preventDefault();
-    // Call the function to send QR code data
-    sendQRCodeData();
-});
 
-
-
-function cancelSearchQR() {
+function cancelBorrowItem() {
     // Hide the addUser modal
-    document.getElementById('scanItemsModal').classList.add('hidden');
+    document.getElementById('borrowItemsModal').classList.add('hidden');
 }

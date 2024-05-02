@@ -35,7 +35,6 @@ function updateDashboardMetrics() {
             countUpSmooth(document.getElementById('disposed-assets'), response['DisposedAssets'], 200);
             countUpSmooth(document.getElementById('borrowed-assets'), response['BorrowedAssets'], 200);
             countUpSmooth(document.getElementById('pending-borrow-requests'), response['PendingBorrowRequests'], 200);
-            countUpSmooth(document.getElementById('pending-return-requests'), response['PendingReturnRequests'], 200);
             countUpSmooth(document.getElementById('completed-transactions'), response['CompletedTransactions'], 200);
 
             // Update inventory value with peso sign and smooth count-up animation
@@ -54,3 +53,4 @@ function updateDashboardMetrics() {
 $(document).ready(function() {
     updateDashboardMetrics();
 });
+
