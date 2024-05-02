@@ -3,9 +3,9 @@
 include 'db_connect.php';
 
 // Check if serial_code is set in the POST request
-if (isset($_POST['qr_serial'])) {
+if (isset($_POST['scannedQR'])) {
     // Sanitize the input to prevent SQL injection
-    $qr_serial = mysqli_real_escape_string($conn, $_POST['qr_serial']);
+    $qr_serial = mysqli_real_escape_string($conn, $_POST['scannedQR']);
 
     // Query to fetch item data based on qr_serial
     $query = "SELECT * FROM school_items WHERE qr_serial = '$qr_serial'";

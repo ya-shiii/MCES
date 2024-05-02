@@ -7,6 +7,7 @@
     <title>MCES Supply Inventory</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -45,7 +46,12 @@
                 </div>
             </div>
         </div>
-
+        <div class="z-50 fixed w-8/12 mx-auto h-fit inset-0 top-14 hidden" id="notif-pane">
+            <div class="notif-pane-content absolute inset-y-0 right-0 w-1/4 bg-slate-300 rounded-lg shadow-xl p-5 h-fit"
+                id="notif-content">
+                <!-- AJAX request will populate this div with notification data -->
+            </div>
+        </div>
         <div class="w-11/12 mx-auto">
             <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">USER MANAGEMENT</h1>
             <div class="flex flex-column mt-2">

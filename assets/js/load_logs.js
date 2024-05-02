@@ -325,8 +325,9 @@ function scanQR(logId) {
             let itemLocation = data.location;
 
             // Update form fields
+            $('#log_id').val(logId);
             $('#borrower_name').val(borrowerName);
-            $('#borrowerId').val(borrowerId);
+            $('#borrower_id').val(borrowerId);
             $('#location').val(itemLocation);
             $('#return_date').val(""); // Clear the return date field
 

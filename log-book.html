@@ -7,6 +7,7 @@
     <title>MCES Supply Inventory</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -47,7 +48,12 @@
                 </div>
             </div>
         </div>
-
+        <div class="z-50 fixed w-8/12 mx-auto h-fit inset-0 top-14 hidden" id="notif-pane">
+            <div class="notif-pane-content absolute inset-y-0 right-0 w-1/4 bg-slate-300 rounded-lg shadow-xl p-5 h-fit"
+                id="notif-content">
+                <!-- AJAX request will populate this div with notification data -->
+            </div>
+        </div>
         <div class="w-11/12 mx-auto">
             <h1 class="text-7xl font-black text-indigo-900 text-right mt-16 mb-0 stroke-white">LOG BOOK</h1>
             <div class="flex flex-column mt-2">
@@ -154,6 +160,8 @@
                             <form id="borrowItemForm" class="p-6" action="assets/php/borrow_itemQR.php" method="POST">
                                 <div class="mb-4 hidden">
                                     <input type="text" id="log_id" name="log_id"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                    <input type="text" id="borrower_id" name="borrower_id"
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
                                 </div>
                                 <div class="mb-4">
