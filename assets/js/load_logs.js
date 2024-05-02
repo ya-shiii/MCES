@@ -346,11 +346,11 @@ function scanQR(logId) {
     });
 }
 
-// Function to open borrow item modal and fill the form fields
+//Function to open borrow item modal and fill the form fields
 function borrowItem(scannedQR) {
     $.ajax({
         type: 'POST',
-        url: 'assets/php/fetch_item-edit.php', // Adjust the URL to the endpoint that fetches item details
+        url: 'assets/php/fetch-QRborrow.php', // Adjust the URL to the endpoint that fetches item details
         data: { scannedQR: scannedQR },
         dataType: 'json',
         success: function (response) {
@@ -364,9 +364,9 @@ function borrowItem(scannedQR) {
             $('#edit_manufacturer').val(response.manufacturer);
             $('#edit_lifespan').val(response.lifespan);
 
-            // Show the borrow item modal and hide the scanQR modal
+            // Show the borrow item modal
             $('#scanItemsModal').addClass('hidden');
-            $('#borrowItemModal').removeClass('hidden');
+            $('#borrowItemsModal').removeClass('hidden');
         },
         error: function (error) {
             console.error('Error fetching item details:', error);
@@ -375,6 +375,12 @@ function borrowItem(scannedQR) {
         }
     });
 }
+
+// Ensure that the DOM is fully loaded before executing jQuery code
+$(document).ready(function () {
+    // Your other jQuery code here...
+});
+
 
 
 function cancelBorrowItem() {
