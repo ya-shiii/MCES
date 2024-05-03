@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2024 at 04:12 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: May 03, 2024 at 04:42 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -121,7 +121,7 @@ CREATE TABLE `log_book` (
 --
 
 INSERT INTO `log_book` (`log_id`, `qr_serial`, `item_name`, `user_id`, `user_name`, `action_type`, `log_date`, `due_date`, `status`, `admin_notif`, `user_notif`) VALUES
-(1, 'MCES20240021', 'Muncher', 1, 'Joshua Jumamil Vicente', 'borrow', '2024-04-06 20:24:59', '2024-04-07 20:20:00', 'pending', 0, 0);
+(3, 'MCES20240031', 'Coke', 1, 'Joshua Jumamil Vicente', 'borrow', '2024-05-02 22:27:29', '2024-05-03 00:00:00', 'approved', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -148,7 +148,7 @@ CREATE TABLE `request_log` (
 --
 
 INSERT INTO `request_log` (`log_id`, `borrower_id`, `borrower_name`, `item_name`, `item_type`, `item_count`, `action`, `location`, `date_requested`, `date_approved`, `status`) VALUES
-(1, 1, 'Joshua Jumamil Vicente', 'Muncher', 'Computer', 2, 'borrow', 'Gym', '2024-03-19', '2024-04-02', 'approved');
+(1, 1, 'Joshua Jumamil Vicente', 'Muncher', 'Computer', 1, 'borrow', 'Gym', '2024-03-19', '2024-04-02', 'approved');
 
 -- --------------------------------------------------------
 
@@ -175,7 +175,8 @@ CREATE TABLE `school_asset` (
 --
 
 INSERT INTO `school_asset` (`asset_id`, `name`, `type`, `number_of_items`, `price_per_item`, `total_price`, `mode_of_procurement`, `location`, `acquired_at`, `edited_at`, `deleted_at`) VALUES
-(2, 'Muncher', 'Computer', 3, 10.00, 30.00, 'asdfasdf', 'School', '2024-03-19 14:48:11', NULL, NULL);
+(2, 'Muncher', 'Computer', 3, 10.00, 30.00, 'asdfasdf', 'School', '2024-03-19 14:48:11', NULL, NULL),
+(3, 'Coke', 'Laboratory Equipment', 2, 10.00, 20.00, 'asdasd', 'School', '2024-05-02 21:17:59', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -210,7 +211,9 @@ CREATE TABLE `school_items` (
 INSERT INTO `school_items` (`item_id`, `qr_serial`, `item_name`, `description`, `type`, `mode_of_procurement`, `warranty_expiry_date`, `serial_number`, `manufacturer`, `lifespan`, `expected_end_date`, `reason_for_disposal`, `acquired_at`, `edited_at`, `disposed_at`, `location`, `item_status`) VALUES
 (22, 'MCES20240021', 'Muncher', 'asdfasdf', 'Computer', 'asdfasdf', '2024-03-30', '1111', 'asdasdasd', 2, '2026-03-19', NULL, '2024-03-19 14:48:11', '2024-04-01 07:22:26', NULL, 'asd', 'Borrowed'),
 (23, 'MCES20240022', 'Muncher', 'asdfasdf', 'Computer', 'asdfasdf', '2024-03-30', NULL, 'asdasdasd', 2, '2026-03-19', NULL, '2024-03-19 14:48:11', NULL, NULL, 'School', 'In Stock'),
-(24, 'MCES20240023', 'Muncher', 'asdfasdf', 'Computer', 'asdfasdf', '2024-03-30', NULL, 'asdasdasd', 2, '2026-03-19', NULL, '2024-03-19 14:48:11', NULL, NULL, 'School', 'In Stock');
+(24, 'MCES20240023', 'Muncher', 'asdfasdf', 'Computer', 'asdfasdf', '2024-03-30', NULL, 'asdasdasd', 2, '2026-03-19', NULL, '2024-03-19 14:48:11', NULL, NULL, 'School', 'In Stock'),
+(25, 'MCES20240031', 'Coke', 'asdfasdfasdf', 'Laboratory Equipment', 'asdasd', '2024-05-30', NULL, 'asdf', 2, '2026-05-02', NULL, '2024-05-02 21:17:59', NULL, NULL, 'School', 'In Stock'),
+(26, 'MCES20240032', 'Coke', 'asdfasdfasdf', 'Laboratory Equipment', 'asdasd', '2024-05-30', NULL, 'asdf', 2, '2026-05-02', NULL, '2024-05-02 21:17:59', NULL, NULL, 'School', 'In Stock');
 
 -- --------------------------------------------------------
 
@@ -235,7 +238,8 @@ CREATE TABLE `stock_items` (
 --
 
 INSERT INTO `stock_items` (`log_id`, `item_name`, `item_type`, `available_items`, `borrowed_items`, `disposed_items`, `location`, `date_added`, `date_updated`) VALUES
-(1, 'Muncher', 'Computer', 3, 0, 0, 'School', '2024-03-19', '2024-04-06');
+(1, 'Muncher', 'Computer', 3, 0, 0, 'School', '2024-03-19', '2024-04-06'),
+(4, 'Coke', 'Laboratory Equipment', 1, 1, 0, 'School', '2024-05-02', NULL);
 
 -- --------------------------------------------------------
 
@@ -351,7 +355,7 @@ ALTER TABLE `group`
 -- AUTO_INCREMENT for table `log_book`
 --
 ALTER TABLE `log_book`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `request_log`
@@ -363,19 +367,19 @@ ALTER TABLE `request_log`
 -- AUTO_INCREMENT for table `school_asset`
 --
 ALTER TABLE `school_asset`
-  MODIFY `asset_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `asset_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `school_items`
 --
 ALTER TABLE `school_items`
-  MODIFY `item_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `item_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `stock_items`
 --
 ALTER TABLE `stock_items`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_list`
