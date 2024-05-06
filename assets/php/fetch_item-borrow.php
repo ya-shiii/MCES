@@ -2,13 +2,13 @@
 // Include your database connection file
 include 'db_connect.php';
 
-// Check if serial_code is set in the POST request
-if (isset($_POST['qr_serial'])) {
+// Check if log_id is set in the POST request
+if (isset($_POST['log_id'])) {
     // Sanitize the input to prevent SQL injection
-    $serialCode = mysqli_real_escape_string($conn, $_POST['qr_serial']);
+    $log_id = mysqli_real_escape_string($conn, $_POST['log_id']);
 
-    // Query to fetch item data based on serial_code
-    $query = "SELECT * FROM school_items WHERE qr_serial = '$serialCode'";
+    // Query to fetch item data based on log_id
+    $query = "SELECT * FROM stock_items WHERE log_id = '$log_id'";
     $result = mysqli_query($conn, $query);
 
     if ($result) {
@@ -30,8 +30,8 @@ if (isset($_POST['qr_serial'])) {
         echo json_encode(['error' => mysqli_error($conn)]);
     }
 } else {
-    // serial_code not set in the POST request
-    echo json_encode(['error' => 'serial_code not provided']);
+    // log_id not set in the POST request
+    echo json_encode(['error' => 'log_id not provided']);
 }
 
 // Close the database connection

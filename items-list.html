@@ -28,10 +28,11 @@
             <div class="w-9/12 mx-auto flex justify-between items-center uppercase">
                 <div class="text-2xl font-black ">Teacher <span id="teacher-name"></span></div>
                 <div class="flex space-x-6">
-                    <a href="home.html" class="px-4 hover:text-blue-300">Home</a>
-                    <a href="items-list.html" class="px-4 text-blue-300">Borrow Item</a>
-                    <a href="logs.html" class="px-4 hover:text-blue-300">Log Book</a>
-                    <a href="account.html" class="px-4 hover:text-blue-300">Account Management</a>
+                    <a href="home.html" class="px-2 hover:text-blue-300">Home</a>
+                    <a href="items-list.html" class="px-2 text-blue-300">Borrow Item</a>
+                    <a href="requests-list.html" class="px-2 hover:text-blue-300">Requested Items</a>
+                    <a href="logs.html" class="px-2 hover:text-blue-300">Log Book</a>
+                    <a href="account.html" class="px-2 hover:text-blue-300">Account Management</a>
                     
 
                     <div class="relative hover:cursor-pointer" id="notif-bell">
@@ -69,7 +70,18 @@
                                     </button>
                                 </div>
                             </a>
-                            <a href="logS.html">
+                            <a href="requests-list.html">
+                                <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
+                                    <button
+                                        class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
+                                        <div class="flex justify-between items-center">
+                                            <div class="w-full z-20">REQUESTED ITEMS</div>
+                                            <div class="z-10 mr-2 font-black">&gt;</div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </a>
+                            <a href="logs.html">
                                 <div class="w-full mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
                                     <button
                                         class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
@@ -116,27 +128,21 @@
                             class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full">
                             <div class="p-5 text-black font-bold text-2xl">Borrow Item</div>
                             <form id="addItemForm" class="p-6" action="assets/php/borrow_item.php" method="POST">
-                                <div class="mb-4">
-                                    <label for="qr_serial" class="block text-gray-700 text-sm font-medium mb-2">Serial
-                                        Code</label>
-                                    <input type="hidden" id="qr_serial" name="qr_serial"
+                                <div class="mb-4 hidden">
+                                    <input type="text" id="log_id" name="log_id"
                                         class="border border-gray-300 py-2 px-5 rounded-full" required>
-                                    <input type="text" id="qr_serial1" name="qr_serial1"
-                                        class="border border-gray-300 py-2 px-5 rounded-full" required disabled>
                                 </div>
                                 <div class="mb-4">
                                     <label for="item_name" class="block text-gray-700 text-sm font-medium mb-2">Item
                                         Name</label>
-                                    <input type="text" id="item_name1" name="item_name1"
-                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required disabled>
-                                    <input type="hidden" id="item_name" name="item_name"
-                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
+                                    <input type="text" id="item_name" name="item_name"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="item_description"
-                                        class="block text-gray-700 text-sm font-medium mb-2">Description</label>
-                                    <input type="text" id="item_description" name="item_description"
-                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" required disabled>
+                                    <label for="item_type"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Item Type</label>
+                                    <input type="text" id="item_type" name="item_type"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
                                 </div>
                                 <div class="mb-4">
                                     <label for="location"
@@ -145,9 +151,9 @@
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="return_due" class="block text-gray-700 text-sm font-medium mb-2">Return
-                                        Date</label>
-                                    <input type="datetime-local" id="return_due" name="return_due"
+                                    <label for="item_count"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Number of Items</label>
+                                    <input type="text" id="item_count" name="item_count"
                                         class="w-full border border-gray-300 py-2 px-5 rounded-full" required>
                                 </div>
                                 <!-- Form buttons -->

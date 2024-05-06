@@ -1,7 +1,20 @@
 <?php
 include 'db_connect.php';
 
-$query = "SELECT * FROM stock_items WHERE available_items != 0";
+// Start the session
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo 'User not logged in.';
+    exit();
+}
+
+// Get user ID from the session
+$userId = $_SESSION['user_id'];
+$full_name = $_SESSION['full_name'];
+
+$query = "SELECT * FROM request_log WHERE borrower_id = '$userId'";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {

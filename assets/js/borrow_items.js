@@ -36,17 +36,17 @@ function displayItemsTable(itemData) {
     $('#itemsDataTable').DataTable({
         data: itemData,
         columns: [
-            { data: 'qr_serial', title: 'Item QR Serial' },
             { data: 'item_name', title: 'Item Name' },
-            { data: 'description', title: 'Items Description' },
-            { data: 'location', title: 'Items Location' },
+            { data: 'item_type', title: 'Item Type' },
+            { data: 'available_items', title: 'Available' },
+            { data: 'location', title: 'Location' },
             {
                 // Custom column for actions
                 data: null,
                 title: 'Actions',
                 render: function (data, type, row) {
                     //  display the "Borrow" button
-                    var borrowButton = '<button class="bg-blue-500 w-20 text-white rounded px-2 py-1 m-2" onclick="borrowItem(\'' + row.qr_serial + '\')">Borrow</button>';
+                    var borrowButton = '<button class="bg-blue-500 w-20 text-white rounded px-2 py-1 m-2" onclick="borrowItem(\'' + row.log_id + '\')">Borrow</button>';
                     return borrowButton;
 
                 }
@@ -55,25 +55,36 @@ function displayItemsTable(itemData) {
     });
 }
 
-function borrowItem(serialCode) {
+function borrowItem(logID) {
     // AJAX request to fetch item data
     $.ajax({
         type: 'POST',
         url: 'assets/php/fetch_item-borrow.php',
-        data: { qr_serial: serialCode },
+        data: { log_id: logID },
         success: function (itemData) {
-            console.log('Borrowing item:', itemData.qr_serial);
+            console.log('Borrowing item:', itemData.log_id);
 
             // Show the modal
             document.getElementById('borrowModal').classList.remove('hidden');
 
             // Populate the modal form with item data
-            document.getElementById('qr_serial').value = itemData.qr_serial;
-            document.getElementById('qr_serial1').value = itemData.qr_serial;
+            document.getElementById('log_id').value = itemData.log_id;
             document.getElementById('item_name').value = itemData.item_name;
-            document.getElementById('item_name1').value = itemData.item_name;
-            document.getElementById('item_description').value = itemData.description;
+            document.getElementById('item_type').value = itemData.item_type;
+            
+            // Limit the input of the "Number of Items" field based on available items
+            var availableItems = itemData.available_items;
+            var itemCountInput = document.getElementById('item_count');
+            itemCountInput.setAttribute('max', availableItems);
 
+            // Add event listener to alert if input exceeds max value
+            itemCountInput.addEventListener('input', function () {
+                var enteredValue = parseInt(this.value);
+                if (enteredValue > availableItems) {
+                    alert('You cannot borrow more than ' + availableItems + ' items.');
+                    this.value = availableItems; // Set the input value to the maximum allowed
+                }
+            });
         },
         error: function (error) {
             console.error('Error fetching item data:', error);
@@ -96,7 +107,7 @@ fetch('assets/php/fetch_user_data.php')
     .then(data => {
         //for debugging
         //console.log('User ID:', data.user_id);
-        //console.log('Last Name:', data.last_name);
+        //console.log('Last Name:', data.full_name);
 
         // Display the last name in the session in the span with id 'teacher-name'
         document.getElementById('teacher-name').textContent = data.full_name;

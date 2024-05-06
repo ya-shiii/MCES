@@ -13,38 +13,34 @@ if (!isset($_SESSION['user_id'])) {
 
 // Get user ID from the session
 $userId = $_SESSION['user_id'];
+$full_name = $_SESSION['full_name'];
 
 // Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get the values from the POST request
-    $qr_serial = $_POST['qr_serial'];
-    $item_name = $_POST['item_name'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $borrowerName = $full_name;
+    $borrowerID = $userId;
     $location = $_POST['location'];
-    $return_due = $_POST['return_due'];
+    $itemName = $_POST['item_name'];
+    $itemType = $_POST['item_type'];
+    $itemCount = $_POST['item_count'];
 
-    // Insert the borrow record into the log_book table
-    $insertLogQuery = "INSERT INTO log_book (user_id, qr_serial, item_name, due_date, action_type) VALUES ('$userId', '$qr_serial', '$item_name', '$return_due', 'borrow')";
-    $insertLogResult = mysqli_query($conn, $insertLogQuery);
-
-    if ($insertLogResult) {
-        // Update the school_items table
-        $updateItemsQuery = "UPDATE school_items SET item_status = 'Borrowed', `location` = '$location' WHERE qr_serial = '$qr_serial'";
-        $updateItemsResult = mysqli_query($conn, $updateItemsQuery);
-
-        if ($updateItemsResult) {
-            echo 'Borrow successful.';
-            echo "<script>alert('Borrow application submitted. Please wait for administrator approval.'); window.location.href='../../items-list.html';</script>";
-        } else {
-            echo 'Error updating school_items table.';
-            echo "<script>alert('Error in  borrow application.'); window.location.href='../../items-list.html';</script>";
-        }
-    } else {
-        echo 'Error inserting record into log_book table.';
-        echo "<script>alert('Error inserting record into log book.'); window.location.href='../../items-list.html';</script>";
+    // Insert record into request_log table
+    $sqlRequestLog = "INSERT INTO request_log ( borrower_id, borrower_name, item_name, item_type, item_count, `action`, `location`)
+    VALUES ('$borrowerID', '$borrowerName', '$itemName', '$itemType', '$itemCount', 'borrow', '$location')";
+    if (!mysqli_query($conn, $sqlRequestLog)) {
+        echo "Error updating request_log: " . mysqli_error($conn);
+        exit(); // Stop further execution
     }
+
+    // Close database connection
+    mysqli_close($conn);
+
+    // Return response to client-side JavaScript
+    echo "<script>alert('Borrow requested successfully'); window.location.href = document.referrer;</script>";
 } else {
-    // Invalid request
-    echo 'Invalid request.';
-    echo "<script>alert('Invalid request.'); window.location.href='../../items-list.html';</script>";
+    // If the form is not submitted, return an error message
+    echo "Error: Form not submitted";
 }
 ?>
+

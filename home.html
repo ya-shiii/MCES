@@ -21,10 +21,11 @@
             <div class="w-9/12 mx-auto flex justify-between items-center uppercase">
                 <div class="text-2xl font-black ">Teacher <span id="teacher-name"></span></div>
                 <div class="flex space-x-6">
-                    <a href="home.html" class="px-4 text-blue-300">Home</a>
-                    <a href="items-list.html" class="px-4 hover:text-blue-300">Borrow Item</a>
-                    <a href="logs.html" class="px-4 hover:text-blue-300">Log Book</a>
-                    <a href="account.html" class="px-4 hover:text-blue-300">Account Management</a>
+                    <a href="home.html" class="px-2 text-blue-300">Home</a>
+                    <a href="items-list.html" class="px-2 hover:text-blue-300">Borrow Item</a>
+                    <a href="requests-list.html" class="px-2 hover:text-blue-300">Requested Items</a>
+                    <a href="logs.html" class="px-2 hover:text-blue-300">Log Book</a>
+                    <a href="account.html" class="px-2 hover:text-blue-300">Account Management</a>
 
 
                     <div class="relative hover:cursor-pointer" id="notif-bell">
@@ -59,6 +60,17 @@
                                     class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
                                     <div class="flex justify-between items-center">
                                         <div class="w-full z-20">BORROW ITEM</div>
+                                        <div class="z-10 mr-2 font-black">&gt;</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </a>
+                        <a href="requests-list.html">
+                            <div class="w-11/12 mx-auto bg-sky-900 hover:bg-blue-900 p-1 rounded-lg my-3">
+                                <button
+                                    class="w-full bg-sky-900 hover:bg-blue-900 text-white border-4 border-opacity-0 rounded-lg py-3 text-2xl relative">
+                                    <div class="flex justify-between items-center">
+                                        <div class="w-full z-20">REQUESTED ITEMS</div>
                                         <div class="z-10 mr-2 font-black">&gt;</div>
                                     </div>
                                 </button>
