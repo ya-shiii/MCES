@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert record into log_book table
     $dueDate = date('Y-m-d', strtotime($returnDate));
     $sqlInsertLogBook = "INSERT INTO log_book (qr_serial, item_name, user_id, user_name, action_type, due_date, status)
-                        VALUES ('$qrSerial', '$itemName', '$borrowerID', '$borrowerName', 'borrow', '$dueDate', 'approved')";
+                        VALUES ('$qrSerial', '$itemName', '$borrowerID', '$borrowerName', 'borrow', '$dueDate', 'completed')";
     mysqli_query($conn, $sqlInsertLogBook);
 
     // Update school_item table

@@ -111,6 +111,7 @@ function displayBorrowedTable(logData) {
         columns: [
             { data: 'qr_serial', title: 'Item QR Serial' },
             { data: 'item_name', title: 'Item Name' },
+            { data: 'user_name', title: 'Borrower' },
             { data: 'action_type', title: 'Action Type' },
             { data: 'log_date', title: 'Log Date' },
             { data: 'due_date', title: 'Return Due' },
@@ -119,7 +120,13 @@ function displayBorrowedTable(logData) {
                 data: null,
                 title: 'Status',
                 render: function (data, type, row) {
-                    return 'Approved';
+                    var confirmButton = '<button class="bg-green-500 w-20 text-white rounded px-2 py-1 m-2" onclick="confirmLog(' + row.log_id + ')">Confirm</button>';
+                    var dispoButton = '<button class="bg-red-500 w-20 text-white rounded px-2 py-1 m-2" onclick="dispoLog(' + row.log_id + ')">Dispose</button>';
+                    if ((row.status === 'pending') && (row.action_type === 'return')) {
+                        return confirmButton + dispoButton;
+                    }else if ((row.status === 'completed') && (row.action_type === 'borrow')) {
+                        return 'In use';
+                    }
                 }
             }
         ],
@@ -205,6 +212,44 @@ function verifyLog(logId) {
     });
 }
 
+
+function confirmLog(logId) {
+    // Perform AJAX request to return_item.php
+    $.ajax({
+        type: 'POST',
+        url: 'assets/php/return_item.php',
+        data: { log_id: logId },
+        success: function (response) {
+            //console.log(response);
+            alert('Return item has been confirmed.');
+            // Reload the entire page after verification
+            location.reload();
+        },
+        error: function (error) {
+            console.error('Error return item log:', error);
+        }
+    });
+}
+
+
+function dispoLog(logId) {
+    // Perform AJAX request to dispose_item.php
+    $.ajax({
+        type: 'POST',
+        url: 'assets/php/dispose_item.php',
+        data: { log_id: logId },
+        success: function (response) {
+            //console.log(response);
+            alert('Item has been disposed.');
+            // Reload the entire page after verification
+            location.reload();
+        },
+        error: function (error) {
+            console.error('Error disposing item:', error);
+        }
+    });
+}
+
 // interactive buttons
 function showPending() {
     // Show the pending table
@@ -262,7 +307,7 @@ function showComplete() {
 }
 
 // Attach an event listener to the form submission
-$('#borrowForm').submit(function(event) {
+$('#borrowForm').submit(function (event) {
     // Prevent the default form submission
     event.preventDefault();
     // Call the function to send QR code data

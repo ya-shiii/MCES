@@ -1,7 +1,11 @@
 <?php
 include 'db_connect.php';
 
-$query = "SELECT * FROM log_book WHERE `status` = 'approved' AND action_type='borrow' ORDER BY log_date DESC";
+$query = "SELECT * FROM log_book 
+          WHERE (action_type = 'borrow' AND status = 'completed') 
+          OR (action_type = 'return' AND status = 'pending') 
+          ORDER BY log_date DESC";
+
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
