@@ -251,6 +251,49 @@
                 </div>
 
             </div>
+            
+            <!-- Dispose Modal -->
+            <div id="disposeItemsModal" class="modal hidden fixed inset-0 overflow-y-auto">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <!-- Background overlay -->
+                    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                    </div>
+
+                    <!-- Modal content -->
+                    <div id="disposeItems" class="relative inset-0 flex items-center justify-center my-20">
+                        <div
+                            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
+                            <div class="p-5 text-black font-bold text-2xl">Dispose Item</div>
+                            <form id="dispoItemForm" class="p-6" action="assets/php/dispose_item.php" method="POST">
+                                <div class="mb-4 hidden">
+                                    <input type="text" id="dispose_id" name="dispose_id"
+                                        class="w-full border border-gray-300 py-2 px-5 rounded-full" readonly>
+                                </div>
+                                <div>
+                                    <label for="dispose_reason" class="block text-gray-700 text-sm font-medium mb-2">Reason for disposal</label>
+                                    <textarea id="dispose_reason" name="dispose_reason"
+                                        class="w-full border border-gray-300 py-2 px-5 h-30 rounded-lg" required></textarea>
+                                </div>
+                                <!-- Form buttons -->
+                                <div class="mt-4 flex justify-end">
+                                    <button type="button" onclick="cancelDispoItem()"
+                                        class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-200 focus:outline-none focus:ring focus:border-blue-300">
+                                        Dispose
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
 
             
         </div>

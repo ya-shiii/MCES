@@ -233,21 +233,15 @@ function confirmLog(logId) {
 
 
 function dispoLog(logId) {
-    // Perform AJAX request to dispose_item.php
-    $.ajax({
-        type: 'POST',
-        url: 'assets/php/dispose_item.php',
-        data: { log_id: logId },
-        success: function (response) {
-            //console.log(response);
-            alert('Item has been disposed.');
-            // Reload the entire page after verification
-            location.reload();
-        },
-        error: function (error) {
-            console.error('Error disposing item:', error);
-        }
-    });
+    // Populate the dispose_id field with the received logId
+    $('#dispose_id').val(logId);
+    
+    // show the form
+    document.getElementById('disposeItemsModal').classList.remove('hidden');
+}
+function cancelDispoItem() {
+    // Hide the addUser modal
+    document.getElementById('disposeItemsModal').classList.add('hidden');
 }
 
 // interactive buttons
