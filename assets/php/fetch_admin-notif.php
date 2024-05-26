@@ -3,7 +3,7 @@
 include_once 'db_connect.php';
 
 // Prepare and execute the query to count pending borrow requests
-$stmt = $conn->prepare("SELECT COUNT(*) AS pending_borrow_requests FROM log_book WHERE action_type = 'borrow' AND `status` = 'pending' AND admin_notif= '0'");
+$stmt = $conn->prepare("SELECT COUNT(*) AS pending_borrow_requests FROM request_log WHERE `action` = 'borrow' AND `status` = 'pending' AND admin_notif= '0'");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
@@ -15,13 +15,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $pendingReturns = $row['pending_returns'];
-
-// Prepare and execute the query to count borrowed items
-$stmt = $conn->prepare("SELECT COUNT(*) AS approved_borrows FROM log_book WHERE action_type = 'borrow' AND `status` = 'approved' AND admin_notif= '0'");
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-$approvedBorrows = $row['approved_borrows'];
 
 // Prepare and execute the query to count borrowed items
 $stmt = $conn->prepare("SELECT COUNT(*) AS completed_reqs FROM log_book WHERE action_type = 'return' AND `status` = 'completed' AND admin_notif= '0'");
@@ -37,7 +30,6 @@ $conn->close();
 $response = array(
     'Pending Borrows' => $pendingBorrowRequests,
     'Pending Returns' => $pendingReturns,
-    'Approved Borrows' => $approvedBorrows,
     'Completed Transactions' => $completedReqs
 );
 

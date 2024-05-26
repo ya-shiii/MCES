@@ -46,24 +46,20 @@ $(document).ready(function () {
             // console.log('Data received:', response);
 
             // Access the data received from the server
-            var pendingBorrows = response['Pending Borrows'];
-            var pendingReturns = response['Pending Returns'];
+            var approvedReturns = response['Approved Returns'];
             var approvedBorrows = response['Approved Borrows'];
             var completedTransactions = response['Completed Transactions'];
 
             // Check if all values are 0
-            if (pendingBorrows === 0 && pendingReturns === 0 && approvedBorrows === 0 && completedTransactions === 0) {
+            if (approvedReturns === 0 && approvedBorrows === 0 && completedTransactions === 0) {
                 $('#notif-content').text('No new notifications');
                 // Hide the red indicator
                 $('#notif-red').hide();
             } else {
                 // Check and display each value individually
-                // Check and display each value individually
-                if (pendingBorrows !== 0) {
-                    $('<div>').addClass('notif').html('<a href="logs.html">' + pendingBorrows + ' New Pending Borrows</a>').appendTo('#notif-content');
-                }
-                if (pendingReturns !== 0) {
-                    $('<div>').addClass('notif').html('<a href="logs.html">' + pendingReturns + ' New Pending Returns</a>').appendTo('#notif-content');
+                
+                if (approvedReturns !== 0) {
+                    $('<div>').addClass('notif').html('<a href="logs.html">' + approvedReturns + ' New Pending Returns</a>').appendTo('#notif-content');
                 }
                 if (approvedBorrows !== 0) {
                     $('<div>').addClass('notif').html('<a href="logs.html">' + approvedBorrows + ' New Approved Borrows</a>').appendTo('#notif-content');

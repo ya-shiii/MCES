@@ -48,11 +48,10 @@ $(document).ready(function () {
             // Access the data received from the server
             var pendingBorrows = response['Pending Borrows'];
             var pendingReturns = response['Pending Returns'];
-            var approvedBorrows = response['Approved Borrows'];
             var completedTransactions = response['Completed Transactions'];
 
             // Check if all values are 0
-            if (pendingBorrows === 0 && pendingReturns === 0 && approvedBorrows === 0 && completedTransactions === 0) {
+            if (pendingBorrows === 0 && pendingReturns === 0 && completedTransactions === 0) {
                 $('#notif-content').text('No new notifications');
                 // Hide the red indicator
                 $('#notif-red').hide();
@@ -64,9 +63,6 @@ $(document).ready(function () {
                 }
                 if (pendingReturns !== 0) {
                     $('<div>').addClass('notif').html('<a href="log-book.html">' + pendingReturns + ' New Pending Returns</a>').appendTo('#notif-content');
-                }
-                if (approvedBorrows !== 0) {
-                    $('<div>').addClass('notif').html('<a href="log-book.html">' + approvedBorrows + ' New Approved Borrows</a>').appendTo('#notif-content');
                 }
                 if (completedTransactions !== 0) {
                     $('<div>').addClass('notif').html('<a href="log-book.html">' + completedTransactions + ' New Completed Transactions</a>').appendTo('#notif-content');
