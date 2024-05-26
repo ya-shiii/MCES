@@ -34,6 +34,7 @@ function updateDashboardMetrics() {
             countUpSmooth(document.getElementById('available-assets'), response['AvailableAssets'], 200);
             countUpSmooth(document.getElementById('disposed-assets'), response['DisposedAssets'], 200);
             countUpSmooth(document.getElementById('borrowed-assets'), response['BorrowedAssets'], 200);
+            countUpSmooth(document.getElementById('approved-borrow-requests'), response['ApprovedBorrowRequests'], 200);
             countUpSmooth(document.getElementById('pending-borrow-requests'), response['PendingBorrowRequests'], 200);
             countUpSmooth(document.getElementById('completed-transactions'), response['CompletedTransactions'], 200);
 

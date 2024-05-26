@@ -49,7 +49,7 @@ function displayLogsTable(logData) {
                     if (row.action_type === 'borrow') {
                         if (row.status === 'pending') {
                             return 'Pending Approval';
-                        } else if (row.status === 'approved') {
+                        } else if (row.status === 'completed') {
                             // Display return button for approved borrow
                             return '<button class="bg-green-500 w-20 text-white rounded px-2 py-1 m-2" onclick="returnItem(\'' + row.log_id + '\')">Return</button>';
                         }
@@ -85,7 +85,7 @@ function returnItem(logId) {
             success: function (response) {
                 console.log('Return successful:', response);
 
-                alert('Returned Item. Please wait for admin confirmation.'); 
+                // alert('Returned Item. Please wait for admin confirmation.'); 
                 window.location.href='logs.html';
             },
             error: function (error) {

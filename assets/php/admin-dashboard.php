@@ -31,7 +31,14 @@ $row = $result->fetch_assoc();
 $borrowedAssets = $row['borrowed_assets'];
 
 // Fetch pending borrow requests from log_book
-$stmt = $conn->prepare("SELECT COUNT(*) AS pending_borrow_requests FROM log_book WHERE action_type = 'borrow' AND `status` = 'Pending'");
+$stmt = $conn->prepare("SELECT COUNT(*) AS approved_borrow_requests FROM request_log WHERE action = 'borrow' AND `status` = 'Approved'");
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$approvedBorrowRequests = $row['approved_borrow_requests'];
+
+// Fetch pending borrow requests from log_book
+$stmt = $conn->prepare("SELECT COUNT(*) AS pending_borrow_requests FROM request_log WHERE action = 'borrow' AND `status` = 'Pending'");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
@@ -45,7 +52,7 @@ $row = $result->fetch_assoc();
 $pendingReturnRequests = $row['pending_return_requests'];
 
 // Fetch completed transactions from log_book
-$stmt = $conn->prepare("SELECT COUNT(*) AS completed_transactions FROM log_book WHERE `status` = 'Completed'");
+$stmt = $conn->prepare("SELECT COUNT(*) AS completed_transactions FROM log_book WHERE action_type = 'return' AND `status` = 'Completed'");
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
@@ -67,6 +74,7 @@ $response = array(
     'AvailableAssets' => $availableAssets,
     'DisposedAssets' => $disposedAssets,
     'BorrowedAssets' => $borrowedAssets,
+    'ApprovedBorrowRequests' => $approvedBorrowRequests,
     'PendingBorrowRequests' => $pendingBorrowRequests,
     'PendingReturnRequests' => $pendingReturnRequests,
     'CompletedTransactions' => $completedTransactions,

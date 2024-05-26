@@ -454,29 +454,6 @@ function editItem(qr_serial) {
 }
 
 
-// Function to display the uploaded image preview
-function previewImage(input) {
-    var preview = document.getElementById('imagePreview');
-    while (preview.firstChild) {
-        preview.removeChild(preview.firstChild);
-    }
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var img = document.createElement('img');
-            img.src = e.target.result;
-            img.classList.add('w-64', 'h-64', 'object-cover', 'rounded-lg');
-            preview.appendChild(img);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-// Event listener for file input change
-document.getElementById('fileInput').addEventListener('change', function () {
-    previewImage(this);
-});
-
 
 // Function to cancel editing an item
 function cancelEditItem() {
@@ -600,68 +577,77 @@ $(document).ready(function () {
     }
 });
 
-function handleImageUpload(event) {
-    // Get the uploaded file
-    var file = event.target.files[0];
 
-    // Create a FileReader object to read the file
-    var reader = new FileReader();
+let scanner;
 
-    // Define the function to run when the file is loaded
-    reader.onload = function(event) {
-        // Create a new Image object
-        var img = new Image();
+function startScanner() {
+    // Initialize scanner
+    scanner = new Instascan.Scanner({ video: document.getElementById('scannerVideo') });
 
-        // Define the function to run when the image is loaded
-        img.onload = function() {
-            // Create a canvas element to work with jsQR
-            var canvas = document.createElement('canvas');
-            var context = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    // Event listener for scan event
+    scanner.addListener('scan', function (content) {
+        console.log('Scanned QR Code: ', content);
+        scanQR(content);
+        stopScanner();
+    });
 
-            // Get the image data from the canvas
-            var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    // Start scanning
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            console.error('No cameras found.');
+            alert('No cameras found.');
+        }
+    }).catch(function (e) {
+        console.error(e);
+        alert('Error initializing scanner.');
+    });
 
-            // Use jsQR to decode the QR code
-            var code = jsQR(imageData.data, imageData.width, imageData.height);
-
-            if (code) {
-                // QR code detected
-                updateQRStatus('QR Code detected', 'green');
-                console.log('QR Code detected:', code.data);
-                document.getElementById('qrSerial').innerText = code.data;
-            } else {
-                // No QR code detected
-                updateQRStatus('No QR Code detected', 'red');
-                console.log('No QR Code detected');
-            }
-        };
-
-        // Set the source of the Image object to the uploaded image
-        img.src = event.target.result;
-    };
-
-    // Read the uploaded file as a data URL
-    reader.readAsDataURL(file);
+    // Show the scan modal
+    document.getElementById('searchQR').classList.remove('hidden');
 }
 
-// Function to update QR status and enable/disable scan button
-function updateQRStatus(message, color) {
-    document.getElementById('qrStatus').innerText = message;
-    document.getElementById('qrStatus').style.color = color;
-    if (color === 'green') {
-        document.getElementById('scanButton').removeAttribute('disabled');
-    } else {
-        document.getElementById('scanButton').setAttribute('disabled', true);
+function stopScanner() {
+    // Stop scanner
+    if (scanner) {
+        scanner.stop();
     }
+
+    // Hide the scan modal
+    document.getElementById('searchQR').classList.add('hidden');
+}
+
+function cancelSearchQR() {
+    stopScanner();
+}
+
+function scanQR(qrSerialText) {
+    // Make an AJAX request to check the QR code
+    $.ajax({
+        type: 'GET',
+        url: 'assets/php/check_qr.php',
+        data: { qr_serial: qrSerialText },
+        dataType: 'json',
+        success: function (response) {
+            if (response.exists) {
+                document.getElementById('searchQR').classList.add('hidden');
+                // If QR code matches an item in the database, call the editItem() function
+                editItem(qrSerialText);
+            } else {
+                // If no item exists or no matching QR code found, show an alert
+                alert("No item exists or no matching QR code found.");
+            }
+        },
+        error: function (xhr, status, error) {
+            // Handle the AJAX error
+            console.error('Error checking QR code:', error);
+        }
+    });
 }
 
 // Function to handle QR code scanning
-function scanQR() {
-    // Get the hidden QR Serial decoded from the image
-    var qrSerialText = document.getElementById('qrSerial').textContent;
+function scanQR(qrSerialText) {
 
     // Make an AJAX request to check the QR code
     $.ajax({

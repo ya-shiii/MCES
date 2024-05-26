@@ -20,6 +20,8 @@
     <script src="assets/js/admin_checker.js"></script>
     <!-- Include the qrious library for qr generator-->
     <script src="https://cdn.jsdelivr.net/npm/qrious"></script>
+    <!-- For scanning QR -->
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 
 
@@ -120,7 +122,7 @@
                         </div>
                         <div class="mt-5">
                             <div class="w-full mx-auto bg-blue-400 p-1 rounded-full my-3">
-                                <button onclick="searchQR()"
+                                <button onclick="startScanner()"
                                     class="w-full bg-blue-400 text-white border-4 border-opacity-0 rounded-full py-3 text-2xl relative">
                                     <div class="flex justify-between items-center">
                                         <div class="w-full z-20">SEARCH via QR</div>
@@ -383,7 +385,7 @@
                 </div>
             </div>
 
-            <!-- Search via QR Form with Image Upload -->
+            <!-- Search via QR Form with scanner -->
             <div id="searchQR" class="modal hidden fixed inset-0 overflow-y-auto">
                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <!-- Background overlay -->
@@ -392,38 +394,24 @@
                     </div>
 
                     <!-- Modal content -->
-                    <div class="fixed inset-0 flex items-center justify-center">
+                    <div id="scanItems" class="absolute inset-0 flex items-center justify-center">
                         <div
                             class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle sm:max-w-lg sm:w-full">
-                            <div class="p-5 text-black font-bold text-2xl">Search via QR with Image Upload</div>
-                            <form id="searchQRFormContent" class="p-6">
-                                <div class="mb-4">
-                                    <label for="fileInput" class="block text-gray-700 text-sm font-medium mb-2">Upload
-                                        Image
-                                        with QR</label>
-                                    <input type="file" id="fileInput" name="fileInput" accept="image/*"
-                                        onchange="handleImageUpload(event)"
-                                        class="w-full border border-gray-300 py-2 px-5 rounded-lg" required>
-
+                            <div class="p-5 text-black font-bold text-2xl">Scan Items</div>
+                            <div class="p-6">
+                                <div id="scannerVideoContainer" class="mt-4">
+                                    <video id="scannerVideo" class="w-full h-auto"></video>
                                 </div>
-                                <!-- Image Preview -->
-                                <div id="imagePreview" class="mb-4"></div>
-                                <div id="qrStatus" class="text-lg"></div>
-                                <div id="qrSerial" class="hidden"></div>
-
-                                <!-- Form buttons -->
                                 <div class="mt-4 flex justify-end">
                                     <button type="button" onclick="cancelSearchQR()"
                                         class="mr-2 px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300">Cancel</button>
-                                    <button type="button" onclick="scanQR()" disabled id="scanButton"
-                                        class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">Scan
-                                        for QR</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
 
             <!-- Edit Modal -->
